@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.seisaily.app",
+    "sha256_cert_fingerprints": [
+      "B1:20:1B:7D:A5:B2:88:55:E7:22:4F:19:2D:1F:52:62:6B:5B:7A:7F:64:6C:B0:B9:56:4C:F4:4A:16:4A:C6:EC"
+    ]
+  }
+}]
