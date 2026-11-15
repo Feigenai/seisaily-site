@@ -7,7 +7,7 @@
 
     <link rel="canonical" href="https://seisaily.com/whattodotoday/download/">
     <meta name="description" content="条件を選んで「決める」を押すだけ。今日のお出かけ先をひとつ提案する無料アプリ「今日なにする？」。全国47都道府県、3,800件以上のスポットから。">
-    <meta name="theme-color" content="#F49070">
+    <meta name="theme-color" content="#FF8A60">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="今日なにする？ | 行き先、アプリが決めます。">
@@ -33,8 +33,9 @@
 
     <style>
         :root {
-            --coral: #F49070;
-            --coral-deep: #E2694A;
+            --coral: #FF845C;
+            --coral-grad: linear-gradient(160deg, #FF9367 0%, #FF7F57 50%, #FF6646 100%);
+            --coral-deep: #EC5A38;
             --cream: #F7F1EA;
             --ink: #2A1F1A;
             --muted: #7A6A60;
@@ -63,28 +64,21 @@
         .grain { position: relative; isolation: isolate; }
         .grain::after {
             content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-            background-image: var(--grain); opacity: .18; mix-blend-mode: multiply;
+            background-image: var(--grain); opacity: .06; mix-blend-mode: soft-light;
         }
+        @media (max-width: 760px) { .grain::after { display: none; } }
 
         /* ---------- ストアボタン ---------- */
-        .stores { display: flex; flex-wrap: wrap; gap: 12px; }
-        .store {
-            display: inline-flex; flex-direction: column; justify-content: center;
-            min-width: 200px;
-            padding: 11px 26px;
-            border-radius: 18px;
-            background: var(--ink); color: #fff;
-            text-decoration: none; line-height: 1.3;
-            box-shadow: 0 5px 0 rgba(0, 0, 0, .28);
-            transition: transform .15s ease, box-shadow .15s ease;
-        }
-        .store:hover { transform: translateY(-2px); box-shadow: 0 7px 0 rgba(0, 0, 0, .28); }
-        .store:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0, 0, 0, .28); }
-        .store small { font-size: 11px; font-weight: 500; opacity: .75; letter-spacing: .06em; }
-        .store b { font-size: 19px; font-weight: 700; letter-spacing: .02em; }
-        .store.light { background: #fff; color: var(--ink); box-shadow: 0 5px 0 rgba(140, 50, 20, .3); }
-        .store.light:hover { box-shadow: 0 7px 0 rgba(140, 50, 20, .3); }
-        .store.light:active { box-shadow: 0 1px 0 rgba(140, 50, 20, .3); }
+        /* バッジの周りは高さの1/4以上空ける（両社のガイドライン） */
+        .stores { display: flex; flex-wrap: wrap; gap: calc(var(--badge-h, 54px) / 4); }
+        /* 公式バッジはそのまま使う（加工・影・アニメーションを付けない） */
+        .store { display: inline-flex; align-items: center; border-radius: 10px; line-height: 0; }
+        .store img { display: block; height: var(--badge-h, 54px); width: auto; }
+        /* Google の PNG は上下に透明の余白（250px 中 29px ずつ）があるので切って高さを揃える */
+        .store[data-platform="android"] img { width: calc(var(--badge-h, 54px) * 646 / 192); object-fit: cover; }
+        .store:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+        .hero .store:focus-visible, .cta .store:focus-visible { outline-color: #fff; }
+        @media (max-width: 420px) { .stores { --badge-h: 48px; } }
 
         body[data-os="ios"] .store[data-platform="android"],
         body[data-os="android"] .store[data-platform="ios"] { display: none; }
@@ -92,14 +86,15 @@
         /* ---------- ヒーロー ---------- */
         .hero {
             position: relative;
-            background: var(--coral);
+            background: var(--coral-grad);
             color: #fff;
             overflow: hidden;
             padding-bottom: 90px;
         }
         .blob { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -2; animation: drift 16s ease-in-out infinite alternate; }
-        .blob.b1 { width: 520px; height: 520px; background: #FFC3A6; right: -120px; top: -140px; }
-        .blob.b2 { width: 420px; height: 420px; background: #F77E5C; left: -160px; bottom: -80px; animation-delay: -8s; }
+        .blob.b1 { width: 520px; height: 520px; background: #FFB088; opacity: .55; right: -120px; top: -140px; }
+        @media (max-width: 760px) { .blob.b1 { width: 300px; height: 300px; right: -140px; top: -120px; } }
+        .blob.b2 { width: 420px; height: 420px; background: #FF5F45; left: -160px; bottom: -80px; animation-delay: -8s; }
         @keyframes drift { to { transform: translate(60px, 40px) scale(1.1); } }
 
         .hero .wrap {
@@ -358,15 +353,16 @@
         .feat p { font-size: 13.5px; color: var(--muted); font-weight: 500; line-height: 1.7; }
 
         /* ---------- 最後のCTA ---------- */
-        .cta { background: var(--coral); color: #fff; text-align: center; overflow: hidden; padding-top: 150px; }
+        .cta { background: var(--coral-grad); color: #fff; text-align: center; overflow: hidden; padding-top: 150px; }
         .cta .wave-top { position: absolute; top: -1px; left: 0; width: 100%; height: 90px; }
         .cta h2 { color: #fff; font-size: clamp(32px, 5.4vw, 60px); }
         .cta .sec-lead { color: rgba(255, 255, 255, .95); margin-bottom: 36px; }
-        .cta .stores { justify-content: center; }
+        .cta .stores { justify-content: center; position: relative; z-index: 1; }
         .cta .deco { position: absolute; font-size: 44px; animation: float 6s ease-in-out infinite; }
 
         footer { padding: 36px 0 44px; text-align: center; font-size: 13px; color: var(--muted); }
         footer a { margin: 0 10px; }
+        footer .tm { margin: 14px auto 0; padding: 0 20px; max-width: 600px; font-size: 11px; line-height: 1.7; opacity: .8; }
 
         /* ---------- スマホ用の追従バー ---------- */
         .bar {
@@ -379,13 +375,10 @@
             display: none;
         }
         .bar.show { transform: none; }
-        .bar-inner { display: flex; gap: 10px; max-width: 520px; margin: 0 auto; }
-        .bar .store { flex: 1 1 0; min-width: 0; align-items: center; text-align: center; padding: 12px 14px; }
-        .bar .store b { font-size: 16px; }
-        /* 端末が分からず2個並ぶときは横に並べ、短い表記にする */
-        .bar .short { display: none; }
-        body[data-os="other"] .bar .long { display: none; }
-        body[data-os="other"] .bar .short { display: inline; }
+        .bar-inner { display: flex; gap: calc(var(--badge-h) / 4); max-width: 520px; margin: 0 auto; }
+        .bar-inner { justify-content: center; align-items: center; }
+        .bar { --badge-h: 46px; }
+        @media (max-width: 350px) { .bar { --badge-h: 40px; } }
 
         /* ---------- スクロールで現れる ---------- */
         .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, 1, .3, 1); }
@@ -442,6 +435,8 @@
             .feat .sticker { font-size: 32px; right: 10px; }
             .cta { padding-top: 110px; }
             .cta .deco { font-size: 30px; }
+            /* 下の飾りがバッジに重ならないよう、さらに下へ逃がす */
+            .cta .deco.lo { bottom: 4% !important; }
             .bar { display: block; }
             footer { padding-bottom: 104px; }
         }
@@ -462,8 +457,8 @@
                 <h1><span class="line1">今日、<span class="nani" aria-label="なに"><span class="reel" aria-hidden="true"><span>なに</span><span>温泉</span><span>絶景</span><span>散歩</span><span>夜景</span><span>なに</span></span></span>する？</span><span class="line2">行き先は、アプリが決める。</span></h1>
                 <p class="lead"><span>場所・時間・人数を選んで</span><span>「決める」を押すだけ。</span><br><span>今日のお出かけ先を、</span><span>ひとつ提案します。</span></p>
                 <div class="stores" id="hero-stores">
-                    <a class="store light" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><small>iPhone</small><b>App Store</b></a>
-                    <a class="store light" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><small>Android</small><b>Google Play</b></a>
+                    <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+                    <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
                 </div>
                 <p class="note"><i>無料</i><i>会員登録なし</i><i>全国3,800件以上</i></p>
             </div>
@@ -551,11 +546,11 @@
                 </div>
             </div>
 
-            <div class="demo-foot reveal">
-                <p>ここで試せるのはほんの一部。アプリなら<b>全国3,800件以上</b>から選びます。</p>
+            <div class="demo-foot">
+                <p class="reveal">ここで試せるのはほんの一部。アプリなら<b>全国3,800件以上</b>から選びます。</p>
                 <div class="stores">
-                    <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><small>iPhone</small><b>App Store</b></a>
-                    <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><small>Android</small><b>Google Play</b></a>
+                    <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+                    <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
                 </div>
             </div>
         </div>
@@ -610,14 +605,14 @@
         <svg class="wave-top" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L1440,0 L1440,40 C1200,85 1000,10 720,45 C440,80 220,15 0,50 Z" fill="#F7F1EA"/></svg>
         <span class="deco" style="left:8%;top:34%;">🌸</span>
         <span class="deco" style="right:10%;top:30%;animation-delay:-2s;">♨️</span>
-        <span class="deco" style="left:12%;bottom:16%;animation-delay:-4s;">🍜</span>
-        <span class="deco" style="right:12%;bottom:18%;animation-delay:-1s;">⛩️</span>
+        <span class="deco lo" style="left:12%;bottom:16%;animation-delay:-4s;">🍜</span>
+        <span class="deco lo" style="right:12%;bottom:18%;animation-delay:-1s;">⛩️</span>
         <div class="wrap">
             <h2 class="reveal">さあ、今日は<br>どこへ行こう？</h2>
             <p class="sec-lead reveal">ダウンロードは無料です。</p>
-            <div class="stores reveal">
-                <a class="store light" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><small>iPhone</small><b>App Store</b></a>
-                <a class="store light" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><small>Android</small><b>Google Play</b></a>
+            <div class="stores">
+                <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+                <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
             </div>
         </div>
     </section>
@@ -628,12 +623,13 @@
             <a href="/privacy-policy.html">プライバシーポリシー</a>
             <a href="/terms-of-service.html">利用規約</a>
         </p>
+        <p class="tm">Apple および Apple ロゴは米国その他の国で登録された Apple Inc. の商標です。App Store は Apple Inc. のサービスマークです。<br>Google Play および Google Play ロゴは Google LLC の商標です。</p>
         <p style="margin-top:10px;">&copy; seisaily</p>
     </footer>
 
     <div class="bar" id="bar"><div class="bar-inner">
-        <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><b class="long">App Store で無料ダウンロード</b><b class="short">App Store</b></a>
-        <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><b class="long">Google Play で無料ダウンロード</b><b class="short">Google Play</b></a>
+        <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+        <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
     </div></div>
 
     <!-- 体験デモ用のスポット（アプリのデータから一部を抜粋）: [都道府県, 名前, やること, おすすめ, 時間, 人数, 季節, カテゴリ] -->
@@ -856,15 +852,18 @@
         /* ---------- 追従バーと出現アニメ ---------- */
         var bar = document.getElementById('bar');
         if ('IntersectionObserver' in window) {
-            // ヒーローのボタンが上に消えていて、最後のCTAが見えていないときだけ出す
-            var heroGone = false, ctaIn = false;
-            function sync() { bar.classList.toggle('show', heroGone && !ctaIn); }
+            // ヒーローのバッジが上に消えていて、ほかのバッジ（デモの下・最後のCTA）が見えていないときだけ出す
+            var heroGone = false, ctaIn = false, demoIn = false;
+            function sync() { bar.classList.toggle('show', heroGone && !ctaIn && !demoIn); }
             new IntersectionObserver(function (e) {
                 heroGone = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; sync();
             }).observe(document.getElementById('hero-stores'));
             new IntersectionObserver(function (e) {
                 ctaIn = e[0].isIntersecting; sync();
             }).observe(document.querySelector('#download .stores'));
+            new IntersectionObserver(function (e) {
+                demoIn = e[0].isIntersecting; sync();
+            }).observe(document.querySelector('.demo-foot .stores'));
 
             var io = new IntersectionObserver(function (entries) {
                 entries.forEach(function (en) {
