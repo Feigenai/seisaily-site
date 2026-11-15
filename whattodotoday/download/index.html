@@ -69,14 +69,16 @@
         @media (max-width: 760px) { .grain::after { display: none; } }
 
         /* ---------- ストアボタン ---------- */
-        .stores { display: flex; flex-wrap: wrap; gap: 12px; }
+        /* バッジの周りは高さの1/4以上空ける（両社のガイドライン） */
+        .stores { display: flex; flex-wrap: wrap; gap: calc(var(--badge-h, 54px) / 4); }
         /* 公式バッジはそのまま使う（加工・影・アニメーションを付けない） */
         .store { display: inline-flex; align-items: center; border-radius: 10px; line-height: 0; }
         .store img { display: block; height: var(--badge-h, 54px); width: auto; }
         /* Google の PNG は上下に透明の余白（250px 中 29px ずつ）があるので切って高さを揃える */
         .store[data-platform="android"] img { width: calc(var(--badge-h, 54px) * 646 / 192); object-fit: cover; }
-        .store:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-        @media (max-width: 420px) { .stores { --badge-h: 48px; gap: 10px; } }
+        .store:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+        .hero .store:focus-visible, .cta .store:focus-visible { outline-color: #fff; }
+        @media (max-width: 420px) { .stores { --badge-h: 48px; } }
 
         body[data-os="ios"] .store[data-platform="android"],
         body[data-os="android"] .store[data-platform="ios"] { display: none; }
@@ -373,10 +375,10 @@
             display: none;
         }
         .bar.show { transform: none; }
-        .bar-inner { display: flex; gap: 10px; max-width: 520px; margin: 0 auto; }
+        .bar-inner { display: flex; gap: calc(var(--badge-h) / 4); max-width: 520px; margin: 0 auto; }
         .bar-inner { justify-content: center; align-items: center; }
         .bar { --badge-h: 46px; }
-        .bar .store:focus-visible { outline-color: var(--coral-deep); }
+        @media (max-width: 350px) { .bar { --badge-h: 40px; } }
 
         /* ---------- スクロールで現れる ---------- */
         .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, 1, .3, 1); }
@@ -544,8 +546,8 @@
                 </div>
             </div>
 
-            <div class="demo-foot reveal">
-                <p>ここで試せるのはほんの一部。アプリなら<b>全国3,800件以上</b>から選びます。</p>
+            <div class="demo-foot">
+                <p class="reveal">ここで試せるのはほんの一部。アプリなら<b>全国3,800件以上</b>から選びます。</p>
                 <div class="stores">
                     <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
                     <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
@@ -608,7 +610,7 @@
         <div class="wrap">
             <h2 class="reveal">さあ、今日は<br>どこへ行こう？</h2>
             <p class="sec-lead reveal">ダウンロードは無料です。</p>
-            <div class="stores reveal">
+            <div class="stores">
                 <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
                 <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
             </div>
@@ -850,15 +852,18 @@
         /* ---------- 追従バーと出現アニメ ---------- */
         var bar = document.getElementById('bar');
         if ('IntersectionObserver' in window) {
-            // ヒーローのボタンが上に消えていて、最後のCTAが見えていないときだけ出す
-            var heroGone = false, ctaIn = false;
-            function sync() { bar.classList.toggle('show', heroGone && !ctaIn); }
+            // ヒーローのバッジが上に消えていて、ほかのバッジ（デモの下・最後のCTA）が見えていないときだけ出す
+            var heroGone = false, ctaIn = false, demoIn = false;
+            function sync() { bar.classList.toggle('show', heroGone && !ctaIn && !demoIn); }
             new IntersectionObserver(function (e) {
                 heroGone = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; sync();
             }).observe(document.getElementById('hero-stores'));
             new IntersectionObserver(function (e) {
                 ctaIn = e[0].isIntersecting; sync();
             }).observe(document.querySelector('#download .stores'));
+            new IntersectionObserver(function (e) {
+                demoIn = e[0].isIntersecting; sync();
+            }).observe(document.querySelector('.demo-foot .stores'));
 
             var io = new IntersectionObserver(function (entries) {
                 entries.forEach(function (en) {
