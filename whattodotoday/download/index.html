@@ -653,7 +653,7 @@
         });
 
         // QR コードや広告から直接ストアへ送りたいとき用: /whattodotoday/download/?go=1
-        if (/[?&]go=1\b/.test(location.search) && (os === 'ios' || os === 'android')) {
+        if (/[?&]go=1(&|$)/.test(location.search) && (os === 'ios' || os === 'android')) {
             var target = document.querySelector('.store[data-platform="' + os + '"]');
             track('app_download_click', { platform: os, auto_redirect: true });
             setTimeout(function () { location.replace(target.href); }, 150);
@@ -745,8 +745,6 @@
         var hint = document.getElementById('hint');
         var busy = false;
 
-        function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
-
         function fill(r) {
             var s = r.s;
             document.getElementById('r-place').textContent = s.place;
@@ -781,9 +779,23 @@
             }
         }
 
-        async function decide() {
+        // 表と裏のうち見えていない側は、キーボードや読み上げで触れないようにする
+        var faceBack = card.querySelector('.face.back'), faceFront = card.querySelector('.face.front');
+        function setFlipped(on) {
+            card.classList.toggle('flipped', on);
+            faceBack.setAttribute('aria-hidden', on ? 'true' : 'false');
+            faceFront.setAttribute('aria-hidden', on ? 'false' : 'true');
+            faceBack.inert = on;
+            faceFront.inert = !on;
+        }
+        setFlipped(false);
+
+        // 古い Safari でも動くよう async/await は使わない
+        var resetTimer = null;
+        function decide() {
             if (busy) return;
             busy = true; btn.disabled = true;
+            clearTimeout(resetTimer);
             track('lp_demo_decide', { area: sel.area || 'any', time: sel.time || 'any', cat: sel.cat || 'any' });
 
             var r = pick();
@@ -792,28 +804,33 @@
             var rect = card.getBoundingClientRect();
             if (rect.top < 0 || rect.bottom > innerHeight) card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
 
-            if (card.classList.contains('flipped')) { card.classList.remove('flipped'); await wait(reduce ? 0 : 450); }
+            var wasFlipped = card.classList.contains('flipped');
+            if (wasFlipped) setFlipped(false);
+            setTimeout(spin, wasFlipped && !reduce ? 450 : 0);
 
-            hint.textContent = 'えらんでいます…';
-            if (!reduce) {
+            function spin() {
+                hint.textContent = 'えらんでいます…';
+                if (reduce) return reveal();
                 card.classList.add('rolling');
                 var t = 0, delay = 45;
-                while (t < 1300) {
+                (function tick() {
                     roll.textContent = spots[Math.floor(Math.random() * spots.length)].place;
-                    await wait(delay); t += delay; delay *= 1.12;
-                }
-                card.classList.remove('rolling');
+                    t += delay; delay *= 1.12;
+                    if (t < 1300) return setTimeout(tick, delay);
+                    card.classList.remove('rolling');
+                    roll.textContent = r.s.place;
+                    setTimeout(reveal, 250);
+                })();
             }
-            roll.textContent = r.s.place;
-            await wait(reduce ? 0 : 250);
 
-            fill(r);
-            card.classList.add('flipped');
-            setTimeout(function () { burst(r.s); }, reduce ? 0 : 380);
-
-            // 裏面は次に備えて元に戻す（めくれている間は見えない）
-            setTimeout(function () { hint.textContent = '「決める」を押してね'; roll.textContent = '今日の行き先は…'; }, 800);
-            busy = false; btn.disabled = false;
+            function reveal() {
+                fill(r);
+                setFlipped(true);
+                setTimeout(function () { burst(r.s); }, reduce ? 0 : 380);
+                // 裏面は次に備えて元に戻す（めくれている間は見えない）
+                resetTimer = setTimeout(function () { hint.textContent = '「決める」を押してね'; roll.textContent = '今日の行き先は…'; }, 800);
+                busy = false; btn.disabled = false;
+            }
         }
 
         btn.addEventListener('click', decide);
@@ -842,7 +859,7 @@
             }).observe(document.getElementById('hero-stores'));
             new IntersectionObserver(function (e) {
                 ctaIn = e[0].isIntersecting; sync();
-            }, { threshold: 0.3 }).observe(document.getElementById('download'));
+            }).observe(document.querySelector('#download .stores'));
 
             var io = new IntersectionObserver(function (entries) {
                 entries.forEach(function (en) {
