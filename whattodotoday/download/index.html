@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日なにする？ | 行き先、アプリが決めます。</title>
+
+    <link rel="canonical" href="https://seisaily.com/whattodotoday/download/">
+    <meta name="description" content="条件を選んで「決める」を押すだけ。今日のお出かけ先をひとつ提案する無料アプリ「今日なにする？」。全国47都道府県、3,800件以上のスポットから。">
+    <meta name="theme-color" content="#F49070">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="今日なにする？ | 行き先、アプリが決めます。">
+    <meta property="og:description" content="条件を選んで「決める」を押すだけ。今日のお出かけ先をひとつ提案する無料アプリ。">
+    <meta property="og:url" content="https://seisaily.com/whattodotoday/download/">
+    <meta property="og:image" content="https://seisaily.com/whattodotoday/download/img/icon.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon" href="img/icon.png">
+    <link rel="apple-touch-icon" href="img/icon.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCM130H3XQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZCM130H3XQ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --coral: #F49070;
+            --coral-deep: #E2694A;
+            --cream: #F7F1EA;
+            --ink: #2A1F1A;
+            --muted: #7A6A60;
+            --display: 'Dela Gothic One', 'Noto Sans JP', sans-serif;
+            --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            overflow-x: clip;
+        }
+
+        img { display: block; max-width: 100%; }
+        a { color: inherit; }
+        button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+        .wrap { width: min(1100px, 100% - 40px); margin: 0 auto; }
+
+        /* ざらっとした紙の質感 */
+        .grain { position: relative; isolation: isolate; }
+        .grain::after {
+            content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+            background-image: var(--grain); opacity: .18; mix-blend-mode: multiply;
+        }
+
+        /* ---------- ストアボタン ---------- */
+        .stores { display: flex; flex-wrap: wrap; gap: 12px; }
+        .store {
+            display: inline-flex; flex-direction: column; justify-content: center;
+            min-width: 200px;
+            padding: 11px 26px;
+            border-radius: 18px;
+            background: var(--ink); color: #fff;
+            text-decoration: none; line-height: 1.3;
+            box-shadow: 0 5px 0 rgba(0, 0, 0, .28);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .store:hover { transform: translateY(-2px); box-shadow: 0 7px 0 rgba(0, 0, 0, .28); }
+        .store:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0, 0, 0, .28); }
+        .store small { font-size: 11px; font-weight: 500; opacity: .75; letter-spacing: .06em; }
+        .store b { font-size: 19px; font-weight: 700; letter-spacing: .02em; }
+        .store.light { background: #fff; color: var(--ink); box-shadow: 0 5px 0 rgba(140, 50, 20, .3); }
+        .store.light:hover { box-shadow: 0 7px 0 rgba(140, 50, 20, .3); }
+        .store.light:active { box-shadow: 0 1px 0 rgba(140, 50, 20, .3); }
+
+        body[data-os="ios"] .store[data-platform="android"],
+        body[data-os="android"] .store[data-platform="ios"] { display: none; }
+
+        /* ---------- ヒーロー ---------- */
+        .hero {
+            position: relative;
+            background: var(--coral);
+            color: #fff;
+            overflow: hidden;
+            padding-bottom: 90px;
+        }
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -2; animation: drift 16s ease-in-out infinite alternate; }
+        .blob.b1 { width: 520px; height: 520px; background: #FFC3A6; right: -120px; top: -140px; }
+        .blob.b2 { width: 420px; height: 420px; background: #F77E5C; left: -160px; bottom: -80px; animation-delay: -8s; }
+        @keyframes drift { to { transform: translate(60px, 40px) scale(1.1); } }
+
+        .hero .wrap {
+            display: grid; grid-template-columns: 1.15fr .85fr;
+            align-items: center; gap: 24px;
+            padding: 40px 0 0; min-height: 700px;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; margin-bottom: 40px; }
+        .brand img { width: 46px; height: 46px; border-radius: 12px; box-shadow: 0 6px 14px rgba(120, 50, 20, .25); }
+
+        .eyebrow {
+            display: inline-block;
+            background: var(--ink); color: #fff;
+            font-weight: 700; font-size: 13px; letter-spacing: .1em;
+            padding: 4px 14px; border-radius: 999px;
+            transform: rotate(-2deg);
+            margin-bottom: 18px;
+        }
+        h1 {
+            font-family: var(--display); font-weight: 400;
+            font-size: clamp(33px, 5vw, 62px);
+            line-height: 1.22; letter-spacing: .01em;
+            margin-bottom: 26px;
+        }
+        h1 .line1 { white-space: nowrap; }
+        h1 .line2 { display: block; font-size: .56em; margin-top: 10px; letter-spacing: .04em; }
+
+        /* 「なに」の箱：中身がスロットのように入れ替わる */
+        .nani {
+            display: inline-block; vertical-align: bottom;
+            height: 1.32em; width: 2.7em;
+            border: .07em solid #fff; border-radius: .26em;
+            background: rgba(255, 255, 255, .1);
+            color: var(--ink);
+            overflow: hidden; text-align: center;
+            margin: 0 .08em;
+            box-shadow: 0 .08em 0 rgba(120, 40, 10, .25);
+        }
+        .nani .reel { display: flex; flex-direction: column; padding-top: .02em; animation: reel 13s cubic-bezier(.7, -.3, .3, 1.3) infinite; }
+        .nani .reel span { height: 1.18em; line-height: 1.18em; }
+        @keyframes reel {
+            0%, 11%   { transform: translateY(0); }
+            16%, 27%  { transform: translateY(-1.18em); }
+            32%, 43%  { transform: translateY(-2.36em); }
+            48%, 59%  { transform: translateY(-3.54em); }
+            64%, 75%  { transform: translateY(-4.72em); }
+            80%, 91%  { transform: translateY(-5.9em); }
+            96%, 100% { transform: translateY(-7.08em); }
+        }
+
+        .lead { font-size: clamp(15px, 1.6vw, 18px); font-weight: 500; max-width: 30em; margin-bottom: 30px; }
+        .lead span { display: inline-block; }
+        .hero .note { margin-top: 18px; font-size: 13px; font-weight: 700; display: flex; gap: 8px; flex-wrap: wrap; }
+        .hero .note i { font-style: normal; background: rgba(255, 255, 255, .22); padding: 2px 12px; border-radius: 999px; }
+
+        .hero-visual { position: relative; align-self: end; display: flex; justify-content: center; perspective: 1200px; }
+        .hero-visual .tilt {
+            width: min(300px, 76%);
+            transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotate(4deg) translateY(30px);
+            transition: transform .25s ease-out;
+        }
+
+        /* ---------- スマホ枠 ---------- */
+        .phone {
+            border: 9px solid #1E1612; border-radius: 44px;
+            background: #1E1612; overflow: hidden;
+            box-shadow: 0 34px 60px rgba(60, 25, 10, .35);
+        }
+        .phone img { width: 100%; height: auto; aspect-ratio: 1206 / 2150; object-fit: cover; object-position: top; border-radius: 34px; }
+
+        .chip {
+            position: absolute; z-index: 2;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 7px 16px;
+            background: #fff; border: 2px solid var(--coral);
+            border-radius: 999px; color: var(--coral-deep);
+            font-weight: 700; font-size: 14px; white-space: nowrap;
+            box-shadow: 0 10px 22px rgba(120, 50, 20, .22);
+            translate: var(--px, 0) var(--py, 0);
+            transition: translate .3s ease-out;
+            animation: float 5s ease-in-out infinite;
+        }
+        .chip.c1 { left: 0; top: 18%; rotate: -6deg; }
+        .chip.c2 { right: -2%; top: 36%; rotate: 5deg; animation-delay: -1.6s; }
+        .chip.c3 { left: 4%; bottom: 26%; rotate: 4deg; animation-delay: -3.2s; }
+        .chip.c4 { right: 6%; bottom: 12%; rotate: -4deg; animation-delay: -2.4s; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 90px; z-index: 3; display: block; }
+
+        /* ---------- 流れる帯 ---------- */
+        .marquee-wrap { overflow: hidden; margin-top: -46px; padding: 20px 0; position: relative; z-index: 4; }
+        .marquee {
+            background: var(--ink); color: #fff;
+            transform: rotate(-1.6deg);
+            margin: 0 -20px;
+            overflow: hidden; padding: 14px 0;
+            box-shadow: 0 10px 30px rgba(42, 31, 26, .2);
+        }
+        .marquee .track { display: flex; width: max-content; animation: marquee 70s linear infinite; }
+        .marquee span { font-family: var(--display); font-size: 20px; letter-spacing: .04em; padding: 0 18px; white-space: nowrap; }
+        .marquee span::after { content: "✦"; color: var(--coral); margin-left: 36px; font-size: 14px; vertical-align: middle; }
+        @keyframes marquee { to { transform: translateX(-50%); } }
+
+        /* ---------- 共通セクション ---------- */
+        section { padding: 110px 0; position: relative; }
+        .sec-label {
+            font-family: var(--display); color: var(--coral-deep);
+            letter-spacing: .14em; font-size: 14px; text-align: center; margin-bottom: 10px;
+        }
+        h2 {
+            font-family: var(--display); font-weight: 400;
+            font-size: clamp(28px, 4.2vw, 46px); line-height: 1.35;
+            text-align: center; margin-bottom: 16px;
+        }
+        h2 em { font-style: normal; color: var(--coral-deep); }
+        .sec-lead { text-align: center; color: var(--muted); font-weight: 500; max-width: 34em; margin: 0 auto 56px; }
+        .sec-lead span { display: inline-block; }
+
+        /* ---------- 体験デモ ---------- */
+        .demo { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+        .panel {
+            background: #fff; border-radius: 32px; padding: 34px 32px 36px;
+            box-shadow: 0 20px 50px rgba(120, 60, 30, .08);
+        }
+        .field + .field { margin-top: 22px; }
+        .field > p { font-weight: 900; font-size: 15px; margin-bottom: 10px; }
+        .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+        .opt {
+            padding: 7px 15px; border-radius: 999px;
+            border: 2px solid #EBDFD6; background: #fff;
+            font-weight: 700; font-size: 14px; color: var(--muted);
+            transition: all .15s ease;
+        }
+        .opt:hover { border-color: var(--coral); color: var(--coral-deep); }
+        .opt[aria-pressed="true"] {
+            background: var(--coral); border-color: var(--coral); color: #fff;
+            transform: scale(1.04) rotate(-1deg);
+            box-shadow: 0 4px 0 var(--coral-deep);
+        }
+
+        .decide {
+            display: block; width: 100%; margin-top: 30px;
+            padding: 18px; border-radius: 22px;
+            background: var(--coral); color: #fff;
+            font-family: var(--display); font-size: 24px; letter-spacing: .12em;
+            box-shadow: 0 7px 0 var(--coral-deep);
+            transition: transform .1s ease, box-shadow .1s ease;
+        }
+        .decide:hover { transform: translateY(-1px); box-shadow: 0 8px 0 var(--coral-deep); }
+        .decide:active { transform: translateY(6px); box-shadow: 0 1px 0 var(--coral-deep); }
+        .decide:disabled { cursor: wait; opacity: .85; }
+
+        .stage { display: flex; justify-content: center; }
+        .card { width: min(380px, 100%); perspective: 1400px; }
+        .card-inner {
+            display: grid;
+            transform-style: preserve-3d;
+            transition: transform .75s cubic-bezier(.3, 1.4, .5, 1);
+        }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        .face {
+            grid-area: 1 / 1;
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border-radius: 30px; min-height: 470px;
+            border: 10px solid #fff;
+            box-shadow: 0 30px 60px rgba(120, 50, 20, .22);
+        }
+        .face.back {
+            background: var(--coral); color: #fff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 30px; overflow: hidden; position: relative;
+        }
+        .face.back::before {
+            content: ""; position: absolute; inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, .22) 2px, transparent 2.5px);
+            background-size: 22px 22px;
+        }
+        .face.back .q { font-family: var(--display); font-size: 120px; line-height: 1; position: relative; text-shadow: 0 6px 0 var(--coral-deep); }
+        .face.back .roll {
+            position: relative; font-family: var(--display); font-size: 26px; line-height: 1.4;
+            min-height: 2.8em; display: flex; align-items: center; justify-content: center;
+            margin-top: 18px;
+        }
+        .face.back .hint { position: relative; font-weight: 700; font-size: 13px; opacity: .9; margin-top: 8px; }
+        .card.rolling .face.back .q { animation: wobble .3s ease-in-out infinite; }
+        @keyframes wobble { 0%, 100% { transform: rotate(-8deg) scale(1.05); } 50% { transform: rotate(8deg) scale(.95); } }
+
+        .face.front {
+            transform: rotateY(180deg);
+            background: var(--cream); padding: 26px 22px 22px;
+            display: flex; flex-direction: column;
+        }
+        .res-label { font-family: var(--display); font-size: 12px; letter-spacing: .14em; color: var(--coral-deep); text-align: center; }
+        .res-place { font-weight: 900; font-size: 26px; line-height: 1.3; color: var(--coral-deep); text-align: center; margin: 6px 0 4px; }
+        .res-loc { text-align: center; font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+        .relaxed { text-align: center; font-size: 12px; color: var(--muted); font-weight: 700; min-height: 1.6em; margin-bottom: 6px; }
+        .box { background: #fff; border: 2px solid var(--coral); border-radius: 16px; padding: 8px 14px; margin-bottom: 10px; }
+        .box small { display: block; color: var(--coral-deep); font-weight: 900; font-size: 12px; }
+        .box div { font-weight: 700; font-size: 14.5px; line-height: 1.6; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 4px 0 16px; }
+        .tags span { border: 2px solid var(--coral); border-radius: 999px; padding: 1px 11px; font-size: 12.5px; font-weight: 700; color: var(--coral-deep); background: #fff; }
+        .res-actions { margin-top: auto; display: flex; gap: 8px; }
+        .res-actions > * {
+            flex: 1; text-align: center; padding: 11px 8px; border-radius: 14px;
+            font-weight: 900; font-size: 14px; text-decoration: none;
+        }
+        .again { border: 2px solid var(--coral); color: var(--coral-deep); background: #fff; }
+        .map { background: var(--coral); color: #fff; }
+
+        .demo-foot { margin-top: 48px; text-align: center; }
+        .demo-foot p { font-weight: 700; font-size: 14px; margin-bottom: 16px; }
+        .demo-foot p b { color: var(--coral-deep); white-space: nowrap; }
+        .demo-foot .stores { justify-content: center; }
+
+        .burst { position: fixed; pointer-events: none; z-index: 50; font-size: 26px; left: 0; top: 0; }
+
+        /* ---------- 使い方 ---------- */
+        .how { background: #fff; }
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+        .step { text-align: center; }
+        .step .phone {
+            width: min(250px, 100%); margin: 0 auto 26px;
+            box-shadow: 0 24px 48px rgba(60, 25, 10, .2);
+            transition: transform .35s cubic-bezier(.3, 1.5, .5, 1);
+        }
+        .step:nth-child(1) .phone { transform: rotate(-3deg); }
+        .step:nth-child(2) .phone { transform: rotate(2deg) translateY(-14px); }
+        .step:nth-child(3) .phone { transform: rotate(-2deg); }
+        .step:hover .phone { transform: rotate(0) translateY(-10px) scale(1.03); }
+        .step .num {
+            font-family: var(--display); font-size: 54px; line-height: 1;
+            color: transparent; -webkit-text-stroke: 2px var(--coral);
+            display: block; margin-bottom: 6px;
+        }
+        .step h3 { font-weight: 900; font-size: 21px; margin-bottom: 6px; }
+        .step p { color: var(--muted); font-size: 14.5px; font-weight: 500; }
+
+        /* ---------- 特長 ---------- */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        .feat {
+            position: relative; border-radius: 28px; padding: 34px 20px 28px; text-align: center;
+            transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
+        }
+        .feat:hover { transform: translateY(-6px) rotate(-1deg); }
+        .feat:nth-child(1) { background: #FFE1D3; }
+        .feat:nth-child(2) { background: #FFF0C7; }
+        .feat:nth-child(3) { background: #DDF0E2; }
+        .feat:nth-child(4) { background: #DCE9F9; }
+        .feat .sticker {
+            position: absolute; top: -18px; right: 16px; font-size: 40px;
+            transform: rotate(12deg); filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .12));
+        }
+        .feat .big { font-family: var(--display); font-size: 42px; line-height: 1.1; margin-bottom: 10px; }
+        .feat .big small { font-family: 'Noto Sans JP', sans-serif; font-weight: 900; font-size: 15px; margin-left: 3px; }
+        .feat h3 { font-size: 16px; font-weight: 900; margin-bottom: 4px; }
+        .feat p { font-size: 13.5px; color: var(--muted); font-weight: 500; line-height: 1.7; }
+
+        /* ---------- 最後のCTA ---------- */
+        .cta { background: var(--coral); color: #fff; text-align: center; overflow: hidden; padding-top: 150px; }
+        .cta .wave-top { position: absolute; top: -1px; left: 0; width: 100%; height: 90px; }
+        .cta h2 { color: #fff; font-size: clamp(32px, 5.4vw, 60px); }
+        .cta .sec-lead { color: rgba(255, 255, 255, .95); margin-bottom: 36px; }
+        .cta .stores { justify-content: center; }
+        .cta .deco { position: absolute; font-size: 44px; animation: float 6s ease-in-out infinite; }
+
+        footer { padding: 36px 0 44px; text-align: center; font-size: 13px; color: var(--muted); }
+        footer a { margin: 0 10px; }
+
+        /* ---------- スマホ用の追従バー ---------- */
+        .bar {
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+            padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+            background: rgba(247, 241, 234, .92);
+            -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+            box-shadow: 0 -6px 24px rgba(60, 25, 10, .12);
+            transform: translateY(110%); transition: transform .3s ease;
+            display: none;
+        }
+        .bar.show { transform: none; }
+        .bar .store { display: flex; width: 100%; align-items: center; padding: 12px 20px; }
+        .bar .store b { font-size: 16px; }
+
+        /* ---------- スクロールで現れる ---------- */
+        .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, 1, .3, 1); }
+        .js .reveal.in { opacity: 1; transform: none; }
+        .js .reveal.d1 { transition-delay: .1s; }
+        .js .reveal.d2 { transition-delay: .2s; }
+        .js .reveal.d3 { transition-delay: .3s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .js .reveal { opacity: 1; transform: none; }
+        }
+
+        /* ---------- タブレット・スマホ ---------- */
+        @media (max-width: 900px) {
+            .demo { grid-template-columns: 1fr; gap: 36px; }
+            .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 12px; }
+        }
+        @media (max-width: 820px) {
+            .hero { padding-bottom: 60px; }
+            .hero .wrap { grid-template-columns: 1fr; padding-top: 30px; min-height: 0; gap: 4px; text-align: center; }
+            .brand { justify-content: center; margin-bottom: 24px; }
+            .lead { margin-left: auto; margin-right: auto; }
+            .stores, .hero .note { justify-content: center; }
+            .hero-visual { margin-top: 26px; }
+            .hero-visual .tilt { width: min(240px, 64%); }
+            .chip { font-size: 12.5px; padding: 5px 12px; }
+            .chip.c1 { left: 2%; top: 10%; }
+            .chip.c2 { right: 2%; top: 30%; }
+            .chip.c3 { left: 3%; bottom: 34%; }
+            .chip.c4 { right: 4%; bottom: 16%; }
+            .wave { height: 50px; }
+            .marquee span { font-size: 16px; }
+            section { padding: 80px 0; }
+            .sec-lead { font-size: 14px; margin-bottom: 40px; }
+            .panel { padding: 26px 20px 28px; border-radius: 26px; }
+            .face { min-height: 440px; }
+            .res-place { font-size: 23px; }
+
+            /* 使い方は横にスワイプ */
+            .steps {
+                display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+                margin: 0 -20px; padding: 20px 20px 24px; scrollbar-width: none;
+            }
+            .steps::-webkit-scrollbar { display: none; }
+            .step { flex: 0 0 72%; scroll-snap-align: center; }
+            .step:nth-child(2) .phone { transform: rotate(2deg); }
+            .swipe-hint { display: block; }
+
+            .feat { padding: 30px 12px 22px; }
+            .feat .big { font-size: 28px; }
+            .feat .big small { font-size: 12px; }
+            .feat p { font-size: 12.5px; }
+            .feat .sticker { font-size: 32px; right: 10px; }
+            .cta { padding-top: 110px; }
+            .cta .deco { font-size: 30px; }
+            .bar { display: block; }
+            footer { padding-bottom: 104px; }
+        }
+        .swipe-hint { display: none; text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); margin: -36px 0 4px; }
+        @media (max-width: 820px) { .swipe-hint { display: block; } }
+    </style>
+    <script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+    <header class="hero grain">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="wrap">
+            <div class="hero-text">
+                <div class="brand"><img src="img/icon.png" alt="" width="46" height="46"><span>今日なにする？</span></div>
+                <span class="eyebrow">お出かけ先、決まらない日に。</span>
+                <h1><span class="line1">今日、<span class="nani" aria-label="なに"><span class="reel" aria-hidden="true"><span>なに</span><span>温泉</span><span>絶景</span><span>散歩</span><span>市場</span><span>夜景</span><span>なに</span></span></span>する？</span><span class="line2">行き先は、アプリが決める。</span></h1>
+                <p class="lead"><span>場所・時間・人数を選んで</span><span>「決める」を押すだけ。</span><br><span>今日のお出かけ先を、</span><span>ひとつ提案します。</span></p>
+                <div class="stores" id="hero-stores">
+                    <a class="store light" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><small>iPhone</small><b>App Store</b></a>
+                    <a class="store light" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><small>Android</small><b>Google Play</b></a>
+                </div>
+                <p class="note"><i>無料</i><i>会員登録なし</i><i>全国3,800件以上</i></p>
+            </div>
+
+            <div class="hero-visual" id="hero-visual">
+                <span class="chip c1" data-depth="18">⏱️ 1時間</span>
+                <span class="chip c2" data-depth="-14">🍴 グルメ</span>
+                <span class="chip c3" data-depth="10">🌸 春</span>
+                <span class="chip c4" data-depth="-20">👫 2人</span>
+                <div class="tilt"><div class="phone"><img src="img/02-result.jpg" alt="「今日なにする？」の提案画面。横須賀ポートマーケットが表示されている" width="640" height="1141"></div></div>
+            </div>
+        </div>
+        <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0,50 C240,100 420,0 720,40 C1020,80 1200,10 1440,45 L1440,90 L0,90 Z" fill="#F7F1EA"/></svg>
+    </header>
+
+    <div class="marquee-wrap" aria-hidden="true"><div class="marquee"><div class="track" id="marquee"></div></div></div>
+
+    <!-- 体験デモ -->
+    <section id="try">
+        <div class="wrap">
+            <p class="sec-label reveal">TRY IT</p>
+            <h2 class="reveal">ためしに、<em>決めて</em>みる。</h2>
+            <p class="sec-lead reveal"><span>条件をえらんで「決める」を押してみて。</span><span>アプリと同じように行き先を選びます。</span></p>
+
+            <div class="demo">
+                <div class="panel reveal">
+                    <div class="field">
+                        <p>📍 どのあたり？</p>
+                        <div class="opts" data-key="area">
+                            <button class="opt" data-v="" aria-pressed="true">指定なし</button>
+                            <button class="opt" data-v="hokkaido">北海道・東北</button>
+                            <button class="opt" data-v="kanto">関東</button>
+                            <button class="opt" data-v="chubu">中部</button>
+                            <button class="opt" data-v="kinki">近畿</button>
+                            <button class="opt" data-v="chushikoku">中国・四国</button>
+                            <button class="opt" data-v="kyushu">九州</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>⏱️ 時間は？</p>
+                        <div class="opts" data-key="time">
+                            <button class="opt" data-v="" aria-pressed="true">指定なし</button>
+                            <button class="opt" data-v="short">さくっと 1〜2時間</button>
+                            <button class="opt" data-v="mid">じっくり 半日</button>
+                            <button class="opt" data-v="day">まる1日</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p>✨ 気分は？</p>
+                        <div class="opts" data-key="cat">
+                            <button class="opt" data-v="" aria-pressed="true">なんでも</button>
+                            <button class="opt" data-v="nature">🌿 自然</button>
+                            <button class="opt" data-v="history">⛩️ 歴史</button>
+                            <button class="opt" data-v="food">🍜 グルメ</button>
+                            <button class="opt" data-v="onsen">♨️ 温泉</button>
+                            <button class="opt" data-v="play">🎡 遊ぶ</button>
+                        </div>
+                    </div>
+                    <button class="decide" id="decide">決める</button>
+                </div>
+
+                <div class="stage reveal d1">
+                    <div class="card" id="card" aria-live="polite">
+                        <div class="card-inner">
+                            <div class="face back">
+                                <div class="q">?</div>
+                                <div class="roll" id="roll">今日の行き先は…</div>
+                                <div class="hint" id="hint">「決める」を押してね</div>
+                            </div>
+                            <div class="face front">
+                                <div class="res-label">TODAY'S PLAN</div>
+                                <div class="res-place" id="r-place"></div>
+                                <div class="res-loc" id="r-loc"></div>
+                                <div class="relaxed" id="r-relaxed"></div>
+                                <div class="box"><small>やること</small><div id="r-act"></div></div>
+                                <div class="box"><small>おすすめポイント</small><div id="r-point"></div></div>
+                                <div class="tags" id="r-tags"></div>
+                                <div class="res-actions">
+                                    <button class="again" id="again">もう一度</button>
+                                    <a class="map" id="r-map" href="#" target="_blank" rel="noopener">地図で見る</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-foot reveal">
+                <p>ここで試せるのはほんの一部。アプリなら<b>全国3,800件以上</b>から選びます。</p>
+                <div class="stores">
+                    <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><small>iPhone</small><b>App Store</b></a>
+                    <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><small>Android</small><b>Google Play</b></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how">
+        <div class="wrap">
+            <p class="sec-label reveal">HOW IT WORKS</p>
+            <h2 class="reveal">使い方は、<em>3ステップ</em>。</h2>
+            <p class="sec-lead reveal">調べる手間も、迷う時間もいりません。</p>
+            <p class="swipe-hint">← スワイプ →</p>
+
+            <div class="steps">
+                <div class="step reveal">
+                    <div class="phone"><img src="img/01-filter.jpg" alt="場所・カテゴリ・時間・人数・季節を選ぶ画面" width="640" height="1391" loading="lazy"></div>
+                    <span class="num">01</span>
+                    <h3>条件を選ぶ</h3>
+                    <p>場所、時間、人数など。<br>全部「指定なし」でもOK。</p>
+                </div>
+                <div class="step reveal d1">
+                    <div class="phone"><img src="img/02-result.jpg" alt="今日の行き先が表示された画面" width="640" height="1391" loading="lazy"></div>
+                    <span class="num">02</span>
+                    <h3>「決める」を押す</h3>
+                    <p>カードがめくれて、<br>今日の行き先が現れます。</p>
+                </div>
+                <div class="step reveal d2">
+                    <div class="phone"><img src="img/03-favorites.jpg" alt="お気に入りに保存したスポットの一覧" width="640" height="1391" loading="lazy"></div>
+                    <span class="num">03</span>
+                    <h3>気に入ったら保存</h3>
+                    <p>お気に入りに入れて、<br>あとからゆっくり見返せます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="wrap">
+            <p class="sec-label reveal">FEATURES</p>
+            <h2 class="reveal">近場から、<em>遠出</em>まで。</h2>
+            <p class="sec-lead reveal"><span>自然、歴史・文化、グルメ、温泉。</span><span>知らなかった行き先に、出会えます。</span></p>
+
+            <div class="grid">
+                <div class="feat reveal"><span class="sticker">🗾</span><div class="big"><span data-count="3800">3,800</span>+<small>件</small></div><h3>全国のスポット</h3><p>47都道府県から<br>行き先を提案します。</p></div>
+                <div class="feat reveal d1"><span class="sticker">🎡</span><div class="big"><span data-count="6">6</span><small>カテゴリ</small></div><h3>気分で選べる</h3><p>自然・グルメ・温泉・<br>アミューズメントなど。</p></div>
+                <div class="feat reveal d2"><span class="sticker">⏱️</span><div class="big"><span data-count="1">1</span><small>時間〜</small></div><h3>時間に合わせて</h3><p>1時間から1日まで、<br>使える時間で絞れます。</p></div>
+                <div class="feat reveal d3"><span class="sticker">🎁</span><div class="big">0<small>円</small></div><h3>登録なしで無料</h3><p>ログイン不要。<br>入れたらすぐ使えます。</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta grain" id="download">
+        <svg class="wave-top" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L1440,0 L1440,40 C1200,85 1000,10 720,45 C440,80 220,15 0,50 Z" fill="#F7F1EA"/></svg>
+        <span class="deco" style="left:8%;top:34%;">🌸</span>
+        <span class="deco" style="right:10%;top:30%;animation-delay:-2s;">♨️</span>
+        <span class="deco" style="left:12%;bottom:16%;animation-delay:-4s;">🍜</span>
+        <span class="deco" style="right:12%;bottom:18%;animation-delay:-1s;">⛩️</span>
+        <div class="wrap">
+            <h2 class="reveal">さあ、今日は<br>どこへ行こう？</h2>
+            <p class="sec-lead reveal">ダウンロードは無料です。</p>
+            <div class="stores reveal">
+                <a class="store light" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><small>iPhone</small><b>App Store</b></a>
+                <a class="store light" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><small>Android</small><b>Google Play</b></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>
+            <a href="/whattodotoday/support.html">サポート</a>
+            <a href="/privacy-policy.html">プライバシーポリシー</a>
+            <a href="/terms-of-service.html">利用規約</a>
+        </p>
+        <p style="margin-top:10px;">&copy; seisaily</p>
+    </footer>
+
+    <div class="bar" id="bar">
+        <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6830709186"><b>App Store で無料ダウンロード</b></a>
+        <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.seisaily.app"><b>Google Play で無料ダウンロード</b></a>
+    </div>
+
+    <!-- 体験デモ用のスポット（アプリのデータから一部を抜粋）: [都道府県, 名前, やること, おすすめ, 時間, 人数, 季節, カテゴリ] -->
+    <script type="application/json" id="spots">[["茨城","国営ひたち海浜公園","ネモフィラやコキアの鑑賞","丘一面が青く染まる絶景","3時間","2人","春","スポーツ・レクリエーション"],["茨城","袋田の滝","滝の観賞とハイキング","日本三名瀑の一つ。冬は氷結も","1時間","2人","冬","自然"],["栃木","日光東照宮","豪華絢爛な建築見学","徳川家康を祀る世界遺産","2時間","2人","通年","歴史・文化"],["栃木","華厳ノ滝","エレベーターで滝壺観賞","中禅寺湖の流出口にある壮大な滝","1時間","2人","通年","自然"],["群馬","草津温泉 湯畑","夜のライトアップ散策","日本一の自然湧出量を誇る温泉のシンボル","1時間","2人","通年","宿泊・温泉"],["群馬","富岡製糸場","世界遺産の工場見学","日本の近代化を支えたレンガ造りの製糸場","2時間","1人","通年","歴史・文化"],["東京","浅草花やしき","日本最古のコースターに乗る","昭和レトロな下町の遊園地","2時間","グループ","通年","アミューズメント"],["神奈川","箱根強羅公園","噴水のある庭園散策と陶芸体験","日本最古のフランス式整型庭園","2時間","2人","通年","歴史・文化"],["神奈川","箱根関所","江戸時代の関所を体感","芦ノ湖畔に復元された歴史的建造物","1時間","2人","通年","歴史・文化"],["千葉","鴨川 仁右衛門島","手漕ぎの渡し船で島へ渡る","個人が所有する珍しい島。源頼朝の伝説も","1時間","2人","春","自然"],["千葉","鋸山 (地獄のぞき)","切り立った断崖からスリルを味わう","ロープウェイで行ける、石切り場跡の巨大な観音像","2時間","2人","通年","歴史・文化"],["埼玉","川越 氷川神社","「縁むすび風鈴」の撮影(夏季)","鯛みくじが人気。フォトジェニックな歴史ある神社","1時間","2人","夏","歴史・文化"],["埼玉","川越 菓子屋横丁","巨大なふ菓子を買い歩く","20軒以上の菓子屋が並ぶ、懐かしい香りの街角","1時間","グループ","通年","グルメ"],["東京","八王子 高尾山 薬王院","天狗の像を拝み、御朱印をいただく","登山だけでなく、パワースポットとしても有名な寺院","2時間","グループ","通年","歴史・文化"],["福岡","太宰府天満宮","参拝と梅ヶ枝餅の食べ歩き","学問の神様を祀る全国天満宮の総本宮","2時間","グループ","春","歴史・文化"],["大阪","大阪城","天守閣見学と歴史探索","天下人・豊臣秀吉の栄華を象徴する巨城","2時間","グループ","春","歴史・文化"],["大阪","道頓堀","看板鑑賞と食い倒れ歩き","グリコの看板が輝く大阪一の繁華街","2時間","2人","通年","グルメ"],["兵庫","姫路城","世界遺産の天守閣見学","白鷺城とも呼ばれる日本初の世界文化遺産","2時間","グループ","春","歴史・文化"],["兵庫","有馬温泉","金泉・銀泉の湯めぐり","日本三古湯の一つ。独特の赤茶色の湯が特徴","3時間","2人","冬","宿泊・温泉"],["京都","清水寺","清水の舞台からの景色と参拝","京都観光の王道。釘を一本も使わない木造建築の傑作","2時間","グループ","秋","歴史・文化"],["京都","金閣寺（鹿苑寺）","黄金に輝く舎利殿の見学","鏡湖池に映る金色の楼閣は圧巻の美しさ","1時間","グループ","冬","歴史・文化"],["宮城","松島（五大堂・福浦橋）","日本三景の遊覧船クルーズと散策","260余りの島々が織りなす、宮城を代表する景勝地","半日","グループ","通年","歴史・文化"],["北海道","小樽運河","運河沿いの散策とクルーズ","ノスタルジックな石造りの倉庫群が美しい","2時間","2人","冬","歴史・文化"],["北海道","小樽オルゴール堂","世界中のオルゴール鑑賞","レトロな建物の中に数えきれないオルゴールが並ぶ","1時間","2人","通年","歴史・文化"],["和歌山","とれとれ市場 南紀白浜","日本最大級の魚市場でお買い物","西日本最大級。海鮮ランチからお土産まで何でも揃う","2時間","グループ","通年","グルメ"],["奈良","吉野山","一目千本の桜を愛でる","3万本の桜が山を埋め尽くす絶景。秋の紅葉も見事。","1日","グループ","春","自然"],["島根","出雲大社","参拝と境内散策","縁結びの最強聖地として名高い大社","2時間","2人","通年","歴史・文化"],["島根","石見銀山","間歩（坑道）の探検","世界遺産に登録されたかつての銀採掘拠点","半日","グループ","通年","歴史・文化"],["滋賀","石山寺","紫式部ゆかりの参拝","源氏物語が執筆されたと言われる花の寺","2時間","1人","春","歴史・文化"],["滋賀","草津市立水生植物公園","ハスの群生を観賞","琵琶湖を背景に四季折々の水生植物が楽しめる","1時間","グループ","夏","歴史・文化"],["鹿児島","桜島","活火山の迫力を体感","鹿児島のシンボル。展望台から噴煙を間近に","半日","グループ","通年","自然"],["鹿児島","指宿温泉 砂むし会館","砂むし温泉体験","波打ち際で砂に埋まる独特の入浴が人気","1時間","グループ","通年","宿泊・温泉"],["富山","立山黒部アルペンルート","雪の大谷をウォーキング","巨大な雪の壁の間を歩く世界的な絶景ルート","1日","グループ","春","自然"],["青森","十和田湖（雪景色）","冬の湖畔散策","冬ならではの静寂と美しさを湛えた湖","2時間","1人","冬","自然"],["秋田","角館武家屋敷通り","雪の歴史散策","黒塀と雪のコントラストが美しい冬の角館","2時間","2人","冬","歴史・文化"],["山形","蔵王温泉スキー場","樹氷鑑賞・スキー","世界的に有名な「氷の怪物」を見上げる","1日","グループ","冬","スポーツ・レクリエーション"],["山形","銀山温泉","大正浪漫の雪景色","ガス灯が灯る雪の温泉街は幻想的","3時間","2人","冬","宿泊・温泉"],["福島","大内宿","雪の宿場町散策","茅葺き屋根に積もる雪が江戸の情緒","2時間","2人","冬","歴史・文化"],["山口","別府弁天池","透き通る青い池を観賞","日本名水百選。不思議なほど青く澄んだ湧き水の池","1時間","2人","通年","自然"],["愛媛","しまなみ海道","絶景の海上サイクリング","島々を結ぶ橋を自転車で渡る、サイクリストの聖地","1日","グループ","春","スポーツ・レクリエーション"],["愛媛","奥道後 壱湯の守","西日本最大級の露天風呂","大自然に囲まれたジャングル風呂。日帰り入浴も充実","2時間","グループ","通年","宿泊・温泉"],["長崎","稲佐山展望台","世界新三大夜景を眺める","1000万ドルの夜景が広がるパノラマ","1時間","2人","通年","自然"],["長崎","ハウステンボス","異国情緒な街並みを歩く","日本最大級の面積を誇る花のテーマパーク","1日","グループ","通年","アミューズメント"],["栃木","宇都宮餃子通り","餃子の食べ歩き","名店が集結する餃子の聖地","2時間","グループ","通年","グルメ"],["東京","新宿ゴールデン街","小さなバーをはしご酒","戦後の雰囲気を残す世界的人気の飲み屋街","3時間","グループ","通年","グルメ"],["神奈川","横浜ハンマーヘッド","海を見ながらの食事とビール","客船ターミナル併設の食の複合施設","2時間","2人","通年","グルメ"],["茨城","那珂湊漁港","新鮮な魚介類の買い物と食事","旬の地魚をお得に楽しめる市場食堂が集結","2時間","グループ","通年","グルメ"],["千葉","勝浦朝市","日本三大朝市で食べ歩き","400年以上続く活気ある市場","1時間","グループ","通年","グルメ"],["埼玉","三芳町 サツマイモ街道","直売所で「富の川越いも」を買う","江戸時代からの落ち葉堆肥農法で育つ絶品イモ","1時間","グループ","秋","グルメ"],["福岡","一蘭の森","ラーメン製造見学と食事","とんこつラーメンの製造工程が見られる聖地","2時間","2人","通年","グルメ"],["愛知","あつた蓬莱軒 本店","本場のひつまぶしを堪能","「ひつまぶし」の名付け親と言われる超有名店","2時間","グループ","通年","グルメ"],["愛知","山本屋総本家","味噌煮込みうどんを味わう","独特のコシのある麺と八丁味噌のコク","1時間","2人","冬","グルメ"],["愛知","レゴランド・ジャパン","テーマパークのアトラクション","子供の想像力を育むカラフルなレゴの世界","1日","グループ","通年","アミューズメント"],["大阪","通天閣","展望台とビリケンさんの足撫で","なにわのシンボル。幸福の神様に会える場所","2時間","2人","通年","アミューズメント"],["兵庫","神戸ポートタワー","展望フロアからの港町鑑賞","リニューアルした神戸のシンボル。屋上デッキが人気","1時間","2人","通年","アミューズメント"],["北海道","さっぽろテレビ塔","地上90mからのパノラマ展望","札幌市街を一望できるランドマーク","1時間","2人","通年","アミューズメント"],["滋賀","ブルーメの丘","動物とのふれあい","中世ドイツをイメージした農業公園","半日","グループ","春","アミューズメント"],["静岡","修善寺温泉","竹林の小径を歩く","伊豆最古の温泉地。ミシュラン二つ星の美しい町並み","2時間","2人","秋","宿泊・温泉"],["島根","玉造温泉","美肌の湯で温泉歩き","日本最古の美肌の湯と言われる温泉街","半日","2人","通年","宿泊・温泉"],["富山","宇奈月温泉","渓谷を眺めての入浴","黒部峡谷の入口にある県内最大の温泉地","半日","2人","通年","宿泊・温泉"],["鳥取","三朝温泉","ラジウム温泉に入る","世界屈指のラジウム含有量を誇る、レトロな温泉街。","半日","2人","通年","宿泊・温泉"],["岐阜","金華山ロープウェー","空中散歩で山頂へ","岐阜市街を一望しながら自然豊かな山頂エリアへ移動","1時間","グループ","通年","スポーツ・レクリエーション"],["岩手","小岩井農場","冬のイルミネーション","東北最大級の光の祭典と冬の農場体験","3時間","グループ","冬","スポーツ・レクリエーション"],["山梨","新倉山浅間公園","五重塔と富士山を眺める","日本を象徴する景色として海外観光客に圧倒的人気","1時間","1人","春","スポーツ・レクリエーション"],["山梨","万力公園","カピバラの餌やりを見る","山梨市駅近く。地元の家族連れが集う憩いの大型公園","1時間","グループ","通年","スポーツ・レクリエーション"],["山梨","大法師公園","2000本の桜の下で休憩","日本さくら名所100選。富士山を借景にした桜の海","2時間","2人","春","スポーツ・レクリエーション"]]</script>
+
+    <script>
+    (function () {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ---------- 端末判定とストア ---------- */
+        var ua = navigator.userAgent || '';
+        var os = 'other';
+        if (/android/i.test(ua)) os = 'android';
+        else if (/iPhone|iPad|iPod/i.test(ua) ||
+                 // iPadOS 13 以降は Mac と名乗るので、タッチ点の数で見分ける
+                 (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) os = 'ios';
+        document.body.setAttribute('data-os', os);
+
+        function track(name, params) { if (typeof gtag === 'function') gtag('event', name, params); }
+        document.querySelectorAll('.store').forEach(function (a) {
+            a.addEventListener('click', function () { track('app_download_click', { platform: a.dataset.platform, auto_redirect: false }); });
+        });
+
+        // QR コードや広告から直接ストアへ送りたいとき用: /whattodotoday/download/?go=1
+        if (/[?&]go=1\b/.test(location.search) && (os === 'ios' || os === 'android')) {
+            var target = document.querySelector('.store[data-platform="' + os + '"]');
+            track('app_download_click', { platform: os, auto_redirect: true });
+            setTimeout(function () { location.replace(target.href); }, 150);
+        }
+
+        /* ---------- データ ---------- */
+        var spots = JSON.parse(document.getElementById('spots').textContent).map(function (s) {
+            return { pref: s[0], place: s[1], act: s[2], point: s[3], time: s[4], people: s[5], season: s[6], cat: s[7] };
+        });
+
+        /* ---------- 流れる帯 ---------- */
+        var names = spots.map(function (s) { return s.place; }).sort(function () { return Math.random() - .5; }).slice(0, 18);
+        var mq = document.getElementById('marquee');
+        names.concat(names).forEach(function (n) { var s = document.createElement('span'); s.textContent = n; mq.appendChild(s); });
+
+        /* ---------- ヒーロー：ポインタで傾く ---------- */
+        var hv = document.getElementById('hero-visual');
+        if (!reduce && window.matchMedia('(hover: hover)').matches) {
+            var tilt = hv.querySelector('.tilt'), chips = hv.querySelectorAll('.chip');
+            document.querySelector('.hero').addEventListener('pointermove', function (e) {
+                var x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+                tilt.style.setProperty('--ry', (x * 18) + 'deg');
+                tilt.style.setProperty('--rx', (-y * 14) + 'deg');
+                chips.forEach(function (c) {
+                    var d = +c.dataset.depth;
+                    c.style.setProperty('--px', (x * d) + 'px');
+                    c.style.setProperty('--py', (y * d) + 'px');
+                });
+            });
+        }
+
+        /* ---------- 体験デモ ---------- */
+        var AREA = {
+            hokkaido: '北海道 青森 岩手 宮城 秋田 山形 福島',
+            kanto: '茨城 栃木 群馬 埼玉 千葉 東京 神奈川',
+            chubu: '新潟 富山 石川 福井 山梨 長野 岐阜 静岡 愛知',
+            kinki: '三重 滋賀 京都 大阪 兵庫 奈良 和歌山',
+            chushikoku: '鳥取 島根 岡山 広島 山口 徳島 香川 愛媛 高知',
+            kyushu: '福岡 佐賀 長崎 熊本 大分 宮崎 鹿児島 沖縄'
+        };
+        var TIME = { short: ['1時間', '2時間'], mid: ['3時間', '半日'], day: ['1日'] };
+        var CAT = {
+            nature: ['自然'], history: ['歴史・文化'], food: ['グルメ'],
+            onsen: ['宿泊・温泉'], play: ['アミューズメント', 'スポーツ・レクリエーション']
+        };
+        var CAT_EMOJI = { '自然': '🌿', '歴史・文化': '🏛️', 'グルメ': '🍴', '宿泊・温泉': '♨️', 'アミューズメント': '🎡', 'スポーツ・レクリエーション': '⚽' };
+        var SEASON_EMOJI = { '春': '🌸', '夏': '🌻', '秋': '🍁', '冬': '⛄', '通年': '🗓️' };
+        var PEOPLE_EMOJI = { '1人': '🚶', '2人': '👫', 'グループ': '👥' };
+
+        var sel = { area: '', time: '', cat: '' };
+        document.querySelectorAll('.opts').forEach(function (g) {
+            g.addEventListener('click', function (e) {
+                var b = e.target.closest('.opt'); if (!b) return;
+                g.querySelectorAll('.opt').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+                sel[g.dataset.key] = b.dataset.v;
+            });
+        });
+
+        function match(s, c) {
+            return (!c.area || AREA[c.area].split(' ').indexOf(s.pref) >= 0) &&
+                   (!c.time || TIME[c.time].indexOf(s.time) >= 0) &&
+                   (!c.cat || CAT[c.cat].indexOf(s.cat) >= 0);
+        }
+
+        var last = null;
+        function pick() {
+            // 見つからなければ、アプリと同じく条件を少しずつゆるめる
+            var tries = [
+                { c: sel, msg: '' },
+                { c: { area: sel.area, time: '', cat: sel.cat }, msg: '時間の条件をゆるめて探しました' },
+                { c: { area: sel.area, time: '', cat: '' }, msg: '条件を少しゆるめて探しました' },
+                { c: { area: '', time: '', cat: sel.cat }, msg: 'エリアを広げて探しました' },
+                { c: { area: '', time: '', cat: '' }, msg: '条件を少しゆるめて探しました' }
+            ];
+            for (var i = 0; i < tries.length; i++) {
+                var list = spots.filter(function (s) { return match(s, tries[i].c); });
+                if (list.length > 1) list = list.filter(function (s) { return s !== last; });
+                if (list.length) {
+                    var s = list[Math.floor(Math.random() * list.length)];
+                    last = s;
+                    return { s: s, msg: tries[i].msg };
+                }
+            }
+        }
+
+        var card = document.getElementById('card');
+        var btn = document.getElementById('decide');
+        var roll = document.getElementById('roll');
+        var hint = document.getElementById('hint');
+        var busy = false;
+
+        function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+        function fill(r) {
+            var s = r.s;
+            document.getElementById('r-place').textContent = s.place;
+            document.getElementById('r-loc').textContent = '📍 ' + s.pref;
+            document.getElementById('r-relaxed').textContent = r.msg;
+            document.getElementById('r-act').textContent = s.act;
+            document.getElementById('r-point').textContent = s.point;
+            var tags = document.getElementById('r-tags');
+            tags.innerHTML = '';
+            [['⏱️', s.time], [PEOPLE_EMOJI[s.people] || '👥', s.people], [SEASON_EMOJI[s.season] || '🗓️', s.season], [CAT_EMOJI[s.cat] || '✨', s.cat]]
+                .forEach(function (t) { var e = document.createElement('span'); e.textContent = t[0] + ' ' + t[1]; tags.appendChild(e); });
+            document.getElementById('r-map').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.place + ' ' + s.pref);
+        }
+
+        function burst(s) {
+            if (reduce || !Element.prototype.animate) return;
+            var rect = card.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2 - 13, cy = rect.top + rect.height * .3;
+            var set = [CAT_EMOJI[s.cat] || '✨', SEASON_EMOJI[s.season] || '🌸', '✨', '🎉'];
+            for (var i = 0; i < 18; i++) {
+                var e = document.createElement('span');
+                e.className = 'burst';
+                e.textContent = set[i % set.length];
+                document.body.appendChild(e);
+                var a = Math.random() * Math.PI * 2, d = 110 + Math.random() * 150;
+                var dx = Math.cos(a) * d, dy = Math.sin(a) * d;
+                e.animate([
+                    { transform: 'translate(' + cx + 'px,' + cy + 'px) scale(.3)', opacity: 1 },
+                    { transform: 'translate(' + (cx + dx) + 'px,' + (cy + dy - 40) + 'px) scale(1.1) rotate(' + (Math.random() * 300 - 150) + 'deg)', opacity: 1, offset: .65 },
+                    { transform: 'translate(' + (cx + dx * 1.1) + 'px,' + (cy + dy + 70) + 'px) scale(.8)', opacity: 0 }
+                ], { duration: 1100 + Math.random() * 400, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = (function (el) { return function () { el.remove(); }; })(e);
+            }
+        }
+
+        async function decide() {
+            if (busy) return;
+            busy = true; btn.disabled = true;
+            track('lp_demo_decide', { area: sel.area || 'any', time: sel.time || 'any', cat: sel.cat || 'any' });
+
+            var r = pick();
+
+            // 小さい画面ではカードが見える位置まで動かす
+            var rect = card.getBoundingClientRect();
+            if (rect.top < 0 || rect.bottom > innerHeight) card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+
+            if (card.classList.contains('flipped')) { card.classList.remove('flipped'); await wait(reduce ? 0 : 450); }
+
+            hint.textContent = 'えらんでいます…';
+            if (!reduce) {
+                card.classList.add('rolling');
+                var t = 0, delay = 45;
+                while (t < 1300) {
+                    roll.textContent = spots[Math.floor(Math.random() * spots.length)].place;
+                    await wait(delay); t += delay; delay *= 1.12;
+                }
+                card.classList.remove('rolling');
+            }
+            roll.textContent = r.s.place;
+            await wait(reduce ? 0 : 250);
+
+            fill(r);
+            card.classList.add('flipped');
+            setTimeout(function () { burst(r.s); }, reduce ? 0 : 380);
+
+            // 裏面は次に備えて元に戻す（めくれている間は見えない）
+            setTimeout(function () { hint.textContent = '「決める」を押してね'; roll.textContent = '今日の行き先は…'; }, 800);
+            busy = false; btn.disabled = false;
+        }
+
+        btn.addEventListener('click', decide);
+        document.getElementById('again').addEventListener('click', decide);
+
+        /* ---------- 数字のカウントアップ ---------- */
+        function countUp(el) {
+            var to = +el.dataset.count, start = null, dur = 1400;
+            if (reduce) return;
+            requestAnimationFrame(function step(ts) {
+                if (!start) start = ts;
+                var p = Math.min((ts - start) / dur, 1);
+                el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))).toLocaleString();
+                if (p < 1) requestAnimationFrame(step);
+            });
+        }
+
+        /* ---------- 追従バーと出現アニメ ---------- */
+        var bar = document.getElementById('bar');
+        if ('IntersectionObserver' in window) {
+            // ヒーローのボタンが上に消えていて、最後のCTAが見えていないときだけ出す
+            var heroGone = false, ctaIn = false;
+            function sync() { bar.classList.toggle('show', heroGone && !ctaIn); }
+            new IntersectionObserver(function (e) {
+                heroGone = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; sync();
+            }).observe(document.getElementById('hero-stores'));
+            new IntersectionObserver(function (e) {
+                ctaIn = e[0].isIntersecting; sync();
+            }, { threshold: 0.3 }).observe(document.getElementById('download'));
+
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (en) {
+                    if (!en.isIntersecting) return;
+                    en.target.classList.add('in');
+                    en.target.querySelectorAll('[data-count]').forEach(countUp);
+                    io.unobserve(en.target);
+                });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+        } else {
+            document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+        }
+    })();
+    </script>
+</body>
+</html>
