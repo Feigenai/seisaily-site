@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAReLOG（ケアログ） | 洗車とメンテの記録アプリ</title>
+
+    <link rel="canonical" href="https://seisaily.com/carelog/download/">
+    <meta name="description" content="前回いつ洗った？ シャンプーはまだある？ あのキズはどうなった？ 洗車の記録・用品の残量・キズの経過・かけたお金をまとめて覚えておく、無料の洗車・メンテ記録アプリ「CAReLOG（ケアログ）」。会員登録なしですぐ使えます。">
+    <meta name="theme-color" content="#FFF9EE">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CAReLOG（ケアログ） | 愛車の「いつだっけ？」を、ぜんぶ覚えておく。">
+    <meta property="og:description" content="洗車した日、用品の残り、キズの経過、かけたお金。愛車の手入れをまとめて覚えておく無料アプリ。">
+    <meta property="og:url" content="https://seisaily.com/carelog/download/">
+    <meta property="og:image" content="https://seisaily.com/carelog/download/img/icon.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon" href="img/icon.png">
+    <link rel="apple-touch-icon" href="img/icon.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCM130H3XQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZCM130H3XQ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800&family=Cormorant+Garamond:wght@600&family=Klee+One:wght@600&family=Zen+Kaku+Gothic+New:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cream: #FFF9EE;
+            --paper: #FEF3DF;
+            --card: #FFFDF8;
+            --line: #EADFCB;
+            --slate: #5A7194;
+            --slate-dark: #44577A;
+            --terra: #D4915D;
+            --terra-deep: #B4672F;
+            --terra-soft: #FBEBDD;
+            --green: #3F8F61;
+            --red: #D45D5D;
+            --ink: #2A3142;
+            --muted: #6B7487;
+            --hand: 'Klee One', 'Zen Kaku Gothic New', sans-serif;
+            --head: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+            --num: 'Archivo', 'Zen Kaku Gothic New', sans-serif;
+            --grid: linear-gradient(rgba(90, 113, 148, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(90, 113, 148, .07) 1px, transparent 1px);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: 'Noto Sans JP', sans-serif; color: var(--ink); line-height: 1.8; overflow-x: hidden;
+            background-color: var(--cream); background-image: var(--grid); background-size: 28px 28px;
+        }
+        img { max-width: 100%; display: block; }
+        a { color: var(--slate-dark); }
+        button { font: inherit; color: inherit; }
+        .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+        /* 日本語の改行位置を文節でそろえる */
+        .ph { display: inline-block; }
+
+        /* ---------- ストアバッジ（公式素材を加工せずに使う） ---------- */
+        .stores { display: flex; flex-wrap: wrap; gap: calc(var(--badge-h, 54px) / 4); }
+        .store { display: inline-flex; align-items: center; border-radius: 10px; line-height: 0; }
+        .store img { display: block; height: var(--badge-h, 54px); width: auto; }
+        /* Google の PNG は周囲に余白を含むので、高さをそろえて切り取る */
+        .store[data-platform="android"] img { width: calc(var(--badge-h, 54px) * 646 / 192); object-fit: cover; }
+        .store:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+        .cta .store:focus-visible { outline-color: #fff; }
+        @media (max-width: 420px) { .stores { --badge-h: 48px; } }
+        body[data-os="ios"] .store[data-platform="android"],
+        body[data-os="android"] .store[data-platform="ios"] { display: none; }
+
+        /* ==================== ヒーロー ==================== */
+        .hero { position: relative; padding: 34px 0 40px; overflow: hidden; }
+        .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 32px; align-items: center; min-height: 600px; }
+        .logo { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); margin-bottom: 30px; }
+        .logo img { width: 44px; height: 44px; border-radius: 11px; box-shadow: 0 4px 12px rgba(42, 49, 66, .15); }
+        .wordmark { font-family: 'Cormorant Garamond', serif; font-size: 27px; letter-spacing: .14em; font-weight: 600; }
+        .wordmark i { font-style: normal; color: var(--terra); }
+        .eyebrow { font-family: var(--head); font-weight: 700; font-size: 14px; color: var(--slate); letter-spacing: .08em; margin-bottom: 14px; }
+        .hero h1 { position: relative; z-index: 0; font-family: var(--head); font-weight: 900; line-height: 1.32; letter-spacing: .01em; margin-bottom: 22px; }
+        .hero h1 .q { display: block; font-family: var(--hand); font-weight: 600; font-size: clamp(24px, 3.5vw, 38px); color: var(--slate-dark); margin-bottom: 6px; }
+        .hero h1 .q em { font-style: normal; position: relative; white-space: nowrap; }
+        .hero h1 .q em::after {
+            content: ''; position: absolute; left: -2%; right: -2%; bottom: .02em; height: .32em; z-index: -1;
+            background: rgba(212, 145, 93, .3); border-radius: 4px; transform: skewX(-8deg);
+        }
+        .hero h1 .a { display: block; font-size: clamp(36px, 5vw, 58px); }
+        .hero h1 .a b { color: var(--terra-deep); }
+        .lead { font-size: 16px; color: #4A5468; margin-bottom: 28px; max-width: 34em; }
+        .hero .note { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+        .hero .note i { font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--slate-dark); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+
+        .hero-visual { position: relative; height: 600px; }
+        .rings { position: absolute; left: 50%; top: 50%; width: 560px; height: 560px; transform: translate(-50%, -50%); pointer-events: none; }
+        .rings circle { fill: none; }
+        .rings .r-run { stroke: var(--terra); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 0 1400; transform-origin: 280px 280px; transform: rotate(-90deg); animation: ringrun 5.5s cubic-bezier(.4, 0, .2, 1) infinite; }
+        @keyframes ringrun { 0% { stroke-dasharray: 0 1400; opacity: 1; } 55%, 80% { stroke-dasharray: 960 1400; opacity: 1; } 100% { stroke-dasharray: 960 1400; opacity: 0; } }
+        .hero-phone { position: absolute; left: 50%; top: 50%; width: 262px; transform: translate(-50%, -50%) rotate(-3deg); }
+
+        .phone { position: relative; border-radius: 40px; padding: 9px; background: #1E2433; box-shadow: 0 30px 60px rgba(42, 49, 66, .28), inset 0 0 0 2px #3A4357; }
+        .phone img { width: 100%; height: auto; border-radius: 32px; aspect-ratio: 639 / 1391; }
+
+        /* 浮かぶメモ（表＝思い出せない問い、裏＝アプリの答え） */
+        .memo-wrap { position: absolute; width: 168px; animation: bob 6s ease-in-out infinite; }
+        .memo-wrap.m1 { left: 0; top: 70px; --r: -6deg; }
+        .memo-wrap.m2 { right: -4px; top: 130px; --r: 5deg; animation-delay: -1.5s; }
+        .memo-wrap.m3 { left: 14px; bottom: 96px; --r: 4deg; animation-delay: -3s; }
+        .memo-wrap.m4 { right: 10px; bottom: 50px; --r: -4deg; animation-delay: -4.5s; }
+        @keyframes bob { 0%, 100% { transform: translateY(0) rotate(var(--r)); } 50% { transform: translateY(-10px) rotate(var(--r)); } }
+        .memo {
+            position: relative; display: block; width: 100%; height: 92px; border: 0; background: none; cursor: pointer;
+            transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, 1.4, .5, 1); -webkit-tap-highlight-color: transparent;
+        }
+        .memo.flip { transform: rotateY(180deg); }
+        .memo:focus-visible { outline: 3px solid var(--slate); outline-offset: 4px; border-radius: 6px; }
+        .face {
+            position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+            padding: 10px 14px; text-align: left; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+        }
+        .face.front {
+            background: #FFF3A8; color: #4A4630; font-family: var(--hand); font-weight: 600; font-size: 16.5px; line-height: 1.4;
+            box-shadow: 0 10px 22px rgba(42, 49, 66, .16); border-radius: 3px 3px 18px 3px;
+        }
+        .face.front::before { content: ''; position: absolute; top: -9px; left: 50%; width: 54px; height: 18px; margin-left: -27px; background: rgba(255, 255, 255, .6); transform: rotate(-3deg); box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+        .face.back {
+            transform: rotateY(180deg); background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+            box-shadow: 0 12px 26px rgba(42, 49, 66, .16);
+        }
+        .face.back small { font-size: 11px; color: var(--muted); font-weight: 500; line-height: 1.4; }
+        .face.back b { font-family: var(--num); font-stretch: 125%; font-weight: 800; font-size: 26px; line-height: 1.15; color: var(--ink); }
+        .face.back b span { font-family: var(--head); font-size: 13px; margin-left: 2px; color: var(--muted); font-stretch: normal; }
+        .face.back b.jp { font-family: var(--head); font-stretch: normal; font-weight: 900; font-size: 21px; }
+        .face.back b.warn { color: var(--red); }
+        .face.back .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 0 8px; border-radius: 999px; margin-top: 3px; line-height: 1.7; }
+        .tag.terra { background: var(--terra-soft); color: var(--terra-deep); }
+        .tag.red { background: #F9E1DF; color: #B83B3B; }
+        .tag.slate { background: #E6ECF5; color: var(--slate-dark); }
+        .memo-hint { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); font-family: var(--hand); font-size: 14px; color: var(--muted); white-space: nowrap; }
+
+        /* 目次 */
+        .toc { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .toc a {
+            display: inline-flex; align-items: baseline; gap: 8px; text-decoration: none; color: var(--ink);
+            background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px 8px 12px;
+            font-family: var(--hand); font-weight: 600; font-size: 15px; transition: transform .2s, border-color .2s, box-shadow .2s;
+        }
+        .toc a:hover { transform: translateY(-2px); border-color: var(--terra); box-shadow: 0 6px 16px rgba(180, 103, 47, .14); }
+        .toc a b { font-family: var(--num); font-stretch: 125%; font-size: 11px; color: var(--terra-deep); }
+
+        /* ==================== 章 ==================== */
+        .chap { position: relative; padding: 110px 0; scroll-margin-top: 10px; }
+        .chap.alt { background-color: var(--paper); background-image: var(--grid); background-size: 28px 28px; }
+        .chap-head { margin-bottom: 44px; }
+        .qno { display: inline-block; font-family: var(--num); font-stretch: 125%; font-weight: 800; font-size: 15px; letter-spacing: .06em; color: #fff; background: var(--slate-dark); padding: 2px 12px; border-radius: 6px; margin-bottom: 14px; }
+        .chap h2 { font-family: var(--hand); font-weight: 600; font-size: clamp(30px, 5vw, 52px); line-height: 1.4; color: var(--ink); }
+        .chap h2 .scrib { position: relative; white-space: nowrap; }
+        .chap h2 .scrib svg { position: absolute; left: -3%; bottom: -.16em; width: 106%; height: .4em; overflow: visible; }
+        .chap h2 .scrib path { fill: none; stroke: var(--terra); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 400; stroke-dashoffset: 400; transition: stroke-dashoffset 1.1s .35s ease; }
+        .chap-head.in h2 .scrib path { stroke-dashoffset: 0; }
+        .ans { margin-top: 18px; display: flex; gap: 12px; align-items: baseline; font-family: var(--head); font-weight: 900; font-size: clamp(19px, 2.5vw, 27px); line-height: 1.5; color: var(--terra-deep); }
+        .ans .amark { flex: none; font-family: var(--num); font-stretch: 125%; font-weight: 800; font-size: .8em; color: var(--terra); }
+
+        .chap-body { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: start; }
+        .chap.flipside .chap-body { grid-template-columns: 1.25fr 1fr; }
+        .chap.flipside .side { order: 2; }
+        .side { position: sticky; top: 40px; }
+        .side .lead { margin-bottom: 30px; }
+        .side .lead b { color: var(--ink); }
+        .side .lead.sm { font-size: 14px; color: var(--muted); }
+        .mini { display: flex; gap: 18px; align-items: flex-end; }
+        .mini .phone { width: 196px; flex: none; border-radius: 32px; padding: 7px; transform: rotate(-2deg); }
+        .mini .phone img { border-radius: 26px; }
+        .mini figcaption { font-family: var(--hand); font-weight: 600; font-size: 15px; color: var(--muted); line-height: 1.5; padding-bottom: 20px; }
+        .mini figcaption::before { content: ''; display: block; width: 46px; height: 20px; margin-bottom: 6px; background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 20'%3E%3Cpath d='M44 4 C30 2 14 6 4 16 M4 16 L5 8 M4 16 L12 15' fill='none' stroke='%236B7487' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); }
+
+        .demo {
+            position: relative; min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 30px;
+            box-shadow: 0 24px 50px -20px rgba(42, 49, 66, .22);
+        }
+        .demo > .try {
+            position: absolute; top: -14px; left: 26px; display: inline-flex; gap: 6px; align-items: center;
+            font-family: var(--num); font-stretch: 125%; font-weight: 800; font-size: 11.5px; letter-spacing: .1em;
+            background: var(--terra); color: #fff; padding: 4px 12px; border-radius: 999px; box-shadow: 0 4px 10px rgba(180, 103, 47, .3);
+        }
+        .demo > .try svg { width: 14px; height: 14px; }
+        .lbl { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 8px; letter-spacing: .04em; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+            border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 5px 14px; cursor: pointer;
+            font-size: 14px; font-weight: 700; color: var(--ink); transition: background .2s, border-color .2s, color .2s, transform .15s;
+        }
+        .chip:hover { border-color: var(--terra); }
+        .chip:active { transform: scale(.96); }
+        .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+        .chip:focus-visible, .seg button:focus-visible, .sev:focus-visible, .btn:focus-visible, .stat:focus-visible { outline: 3px solid var(--slate); outline-offset: 2px; }
+
+        /* ---------- Q1 経過日数と周期 ---------- */
+        .cyc-top { display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: center; }
+        .ring { position: relative; width: 200px; height: 200px; }
+        .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .ring circle { fill: none; stroke-width: 12; }
+        .ring .trk { stroke: #F1E9DA; }
+        .ring .prg { stroke: var(--terra); stroke-linecap: round; transition: stroke-dashoffset .5s cubic-bezier(.3, 1.2, .5, 1); }
+        .ring.over .prg { animation: pulse 1.6s ease-in-out infinite; }
+        @keyframes pulse { 50% { stroke: #E0704A; } }
+        .ring .mid { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .ring .cap { font-size: 12px; font-weight: 700; color: var(--muted); }
+        .odo { display: flex; font-family: var(--num); font-stretch: 125%; font-weight: 800; font-size: 54px; line-height: 1; height: 1em; overflow: hidden; margin: 4px 0 2px; }
+        .odo .dg { display: flex; flex-direction: column; transition: transform .45s cubic-bezier(.3, 1.3, .5, 1), color .3s; }
+        .odo .dg span { height: 1em; display: block; text-align: center; }
+        .odo .dg.lead0 { color: #DDD5C6; }
+        .ring .unit { font-size: 13px; font-weight: 700; color: var(--muted); }
+        .ring-note { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+
+        .ruler { margin-bottom: 22px; }
+        input[type="range"].rng { -webkit-appearance: none; appearance: none; width: 100%; height: 34px; background: transparent; cursor: pointer; }
+        .rng::-webkit-slider-runnable-track {
+            height: 14px; border-radius: 999px;
+            background: repeating-linear-gradient(90deg, #DCCFB8 0 1.5px, transparent 1.5px 2.5%) 0 50% / 100% 8px no-repeat, #F4ECDD;
+        }
+        .rng::-moz-range-track { height: 14px; border-radius: 999px; background: repeating-linear-gradient(90deg, #DCCFB8 0 1.5px, transparent 1.5px 2.5%) 0 50% / 100% 8px no-repeat, #F4ECDD; }
+        .rng::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -8px; border-radius: 50%; background: var(--terra); border: 4px solid #fff; box-shadow: 0 3px 10px rgba(180, 103, 47, .45); }
+        .rng::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--terra); border: 4px solid #fff; box-shadow: 0 3px 10px rgba(180, 103, 47, .45); }
+        .rng:focus-visible { outline: 3px solid var(--slate); outline-offset: 4px; border-radius: 999px; }
+        .scale { display: flex; justify-content: space-between; font-family: var(--num); font-stretch: 125%; font-size: 11px; color: var(--muted); padding: 0 6px; }
+
+        .alert {
+            display: flex; gap: 12px; align-items: center; margin-top: 24px; padding: 13px 16px; border-radius: 16px;
+            background: linear-gradient(135deg, rgba(212, 145, 93, .12), rgba(224, 165, 115, .06)); border: 1px solid rgba(212, 145, 93, .35);
+            font-size: 14px; font-weight: 500; line-height: 1.6;
+        }
+        .alert[hidden] { display: none; }
+        .alert .ico { flex: none; width: 36px; height: 36px; border-radius: 10px; background: rgba(212, 145, 93, .2); display: grid; place-items: center; color: var(--terra-deep); }
+        .alert .ico svg { width: 20px; height: 20px; }
+        .alert.pop { animation: popin .45s cubic-bezier(.3, 1.5, .5, 1); }
+        @keyframes popin { from { transform: scale(.94); opacity: .3; } }
+        .next { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 22px 0 12px; padding-top: 18px; border-top: 1px dashed var(--line); flex-wrap: wrap; }
+        .next .lbl { margin: 0; }
+        .next b { font-family: var(--head); font-weight: 900; font-size: 22px; }
+        .ntf { list-style: none; display: grid; gap: 8px; }
+        .ntf li { display: grid; grid-template-columns: 34px 1fr auto; gap: 2px 12px; align-items: center; padding: 10px 14px; border-radius: 14px; background: #F7F2E8; border: 1px solid transparent; transition: opacity .3s, background .3s; }
+        .ntf .bell { grid-row: span 2; width: 34px; height: 34px; }
+        .ntf .bell img { width: 34px; height: 34px; border-radius: 8px; }
+        .ntf .t { font-size: 13.5px; font-weight: 700; line-height: 1.5; }
+        .ntf .when { font-family: var(--num); font-stretch: 125%; font-size: 12px; font-weight: 700; color: var(--muted); grid-row: span 2; text-align: right; line-height: 1.4; white-space: nowrap; }
+        .ntf .when i { display: block; font-style: normal; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 700; color: var(--green); }
+        .ntf .b { font-size: 12.5px; color: #4A5468; line-height: 1.5; }
+        .ntf li.past { opacity: .5; background: transparent; border: 1px dashed var(--line); }
+        .ntf li.past .when i { color: var(--muted); }
+
+        /* ---------- Q2 天気とカレンダー ---------- */
+        .cities { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 6px; margin: 0 -2px 18px; }
+        .cities::-webkit-scrollbar { display: none; }
+        .cities .chip { flex: none; }
+        .cal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .cal-head b { font-family: var(--head); font-weight: 900; font-size: 19px; min-width: 6.2em; text-align: center; }
+        .cal-nav { display: flex; align-items: center; gap: 4px; }
+        .cal-nav button { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer; }
+        .cal-nav button:disabled { opacity: .3; cursor: default; }
+        .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
+        .legend span { display: inline-flex; align-items: center; gap: 5px; }
+        .legend .k-plan { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--terra); }
+        .legend svg { width: 20px; height: 12px; }
+        .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; }
+        .cal .wd { font-size: 11.5px; font-weight: 700; color: var(--muted); padding-bottom: 4px; }
+        .cal .wd:first-child { color: var(--red); }
+        .cal .wd:nth-child(7) { color: var(--slate); }
+        .cell { position: relative; min-height: 56px; border-radius: 10px; padding: 5px 0 3px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 13px; font-weight: 500; }
+        .cell.other { color: rgba(107, 116, 135, .35); }
+        .cell.sun { color: var(--red); }
+        .cell.sat { color: var(--slate); }
+        .cell.today { background: rgba(212, 145, 93, .15); box-shadow: inset 0 0 0 1px rgba(212, 145, 93, .35); color: var(--terra-deep); font-weight: 700; }
+        .cell .n { line-height: 1.3; position: relative; z-index: 1; }
+        .cell.plan .n::before { content: ''; position: absolute; left: 50%; top: 50%; width: 26px; height: 26px; transform: translate(-50%, -50%); border: 2px solid var(--terra); border-radius: 50%; z-index: -1; animation: planpop .5s cubic-bezier(.3, 1.6, .5, 1); }
+        @keyframes planpop { from { transform: translate(-50%, -50%) scale(.3); } }
+        .cell svg { width: 22px; height: 18px; }
+        .cell svg.car { width: 20px; height: 12px; }
+        .days3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+        .d3 { border: 1px solid var(--line); border-radius: 16px; padding: 12px 10px; text-align: center; background: #fff; }
+        .d3.best { border-color: var(--green); box-shadow: 0 0 0 3px rgba(63, 143, 97, .14); }
+        .d3.isplan { background: #FFF6EC; }
+        .d3 .w { font-family: var(--head); font-weight: 900; font-size: 15px; line-height: 1.4; }
+        .d3 .w small { font-family: var(--num); font-stretch: 125%; font-size: 11px; font-weight: 700; color: var(--muted); margin-left: 4px; }
+        .d3 svg { width: 52px; height: 44px; margin: 4px auto 2px; display: block; }
+        .d3 .tl { font-size: 12.5px; font-weight: 700; line-height: 1.4; min-height: 2.8em; display: flex; align-items: center; justify-content: center; }
+        .d3 .tp { font-family: var(--num); font-stretch: 125%; font-size: 12px; font-weight: 700; white-space: nowrap; }
+        .d3 .tp .hi { color: var(--red); } .d3 .tp .lo { color: var(--slate); }
+        .d3 .rn { font-size: 11px; color: var(--muted); white-space: nowrap; }
+        .vd { display: inline-block; max-width: 100%; margin-top: 7px; font-size: 11.5px; font-weight: 700; line-height: 1.4; padding: 2px 10px; border-radius: 999px; }
+        .vd.good { background: #E2F2E8; color: var(--green); }
+        .vd.soso { background: var(--terra-soft); color: var(--terra-deep); }
+        .vd.bad { background: #EEF0F4; color: var(--muted); }
+        .d3.sk .w, .d3.sk .tl, .d3.sk .tp { background: #F1EBDF; border-radius: 6px; color: transparent; animation: shimmer 1.2s ease-in-out infinite; }
+        @keyframes shimmer { 50% { opacity: .5; } }
+        .fc-msg { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: #F2F5FA; font-size: 14px; line-height: 1.7; min-height: 3.4em; }
+        .fc-msg b { color: var(--green); }
+        .fc-src { margin-top: 10px; font-size: 11.5px; color: var(--muted); line-height: 1.7; }
+
+        /* ---------- Q3 用品の残量 ---------- */
+        .notif {
+            display: grid; grid-template-columns: 38px 1fr auto; gap: 2px 12px; align-items: center; padding: 12px 14px; margin-bottom: 8px;
+            background: rgba(255, 255, 255, .95); border-radius: 18px; box-shadow: 0 10px 30px rgba(42, 49, 66, .16), 0 0 0 1px rgba(42, 49, 66, .05);
+            transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .3s, margin .3s, padding .3s, max-height .4s;
+            max-height: 130px; overflow: hidden;
+        }
+        .notif img { grid-row: span 2; width: 38px; height: 38px; border-radius: 9px; }
+        .notif .nt { font-size: 13.5px; font-weight: 700; }
+        .notif .nb { font-size: 12.5px; color: #4A5468; line-height: 1.5; grid-column: 2 / 4; }
+        .notif .nw { font-size: 11px; color: var(--muted); white-space: nowrap; }
+        .notif.off { transform: translateY(-14px) scale(.96); opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 0; }
+        .notif-when { font-size: 12px; color: var(--muted); margin-bottom: 18px; padding-left: 4px; }
+        .notif-when.off { display: none; }
+        .notif-idle { font-family: var(--hand); font-weight: 600; font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+        .notif-idle.off { display: none; }
+        .shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-bottom: 14px; border-bottom: 10px solid #E5D6BC; border-radius: 0 0 4px 4px; position: relative; }
+        .btl { display: flex; flex-direction: column; align-items: center; }
+        .btl svg { width: 100%; max-width: 116px; height: auto; touch-action: none; cursor: ns-resize; overflow: visible; outline: none; }
+        .btl svg:focus-visible .glass { stroke: var(--slate); stroke-width: 4; }
+        .btl .glass { fill: rgba(255, 255, 255, .55); }
+        .btl .wave { animation: wave 2.6s linear infinite; }
+        @keyframes wave { to { transform: translateX(-50px); } }
+        .btl .lvl { transition: transform .5s cubic-bezier(.3, 1.2, .5, 1); }
+        .btl.drag .lvl { transition: none; }
+        .btl .lbl-t { font-size: 11px; font-weight: 700; fill: var(--ink); }
+        .btl .pct-t { font-family: 'Archivo', sans-serif; font-stretch: 125%; font-size: 15px; font-weight: 800; fill: var(--ink); }
+        .btl.low .pct-t { fill: var(--red); }
+        .btl.low svg { animation: wobble .6s ease; transform-origin: 50% 100%; }
+        @keyframes wobble { 25% { transform: rotate(-4deg); } 60% { transform: rotate(3deg); } }
+        .btl-meta { text-align: center; margin-top: 12px; }
+        .btl-meta .nm { font-size: 13.5px; font-weight: 700; line-height: 1.4; }
+        .btl-meta .ct { font-size: 11px; color: var(--muted); }
+        .stat {
+            display: inline-block; margin-top: 6px; font-size: 11.5px; font-weight: 700; padding: 2px 10px; border-radius: 999px; border: 0;
+            background: #E2F2E8; color: var(--green); white-space: nowrap; cursor: default;
+        }
+        .btl.low .stat { background: #F9E1DF; color: #B83B3B; cursor: pointer; }
+        .btl.low .stat:hover { background: #F4CFCB; }
+        .shelf-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+        .shelf-foot p { font-size: 12.5px; color: var(--muted); }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; border-radius: 999px; padding: 10px 20px;
+            background: var(--ink); color: #fff; font-weight: 700; font-size: 14px; transition: transform .15s, background .2s;
+        }
+        .btn:hover { background: #3A4357; }
+        .btn:active { transform: scale(.96); }
+        .btn svg { width: 18px; height: 18px; }
+
+        /* ---------- Q4 キズの管理 ---------- */
+        .carbox { position: relative; background: linear-gradient(#F3F6FA, #E9EEF5); border-radius: 20px; padding: 40px 10px 6px; margin-bottom: 18px; }
+        .carbox svg { width: 100%; height: auto; display: block; overflow: visible; }
+        .carbox .body { cursor: crosshair; }
+        .carbox .hint { position: absolute; left: 16px; top: 10px; font-family: var(--hand); font-weight: 600; font-size: 14.5px; color: var(--slate-dark); }
+        .pin { cursor: pointer; }
+        .pin .halo { opacity: 0; transition: opacity .25s; }
+        .pin.hot .halo { opacity: .35; }
+        .pin.new { animation: pindrop .5s cubic-bezier(.3, 1.6, .5, 1); }
+        @keyframes pindrop { from { transform: translateY(-30px); opacity: 0; } }
+        .iss-sum { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; font-size: 13px; font-weight: 700; color: var(--muted); }
+        .iss-add { font: inherit; font-size: 12.5px; font-weight: 700; color: var(--terra-deep); background: var(--terra-soft); border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+        .iss-add:disabled { opacity: .45; cursor: default; }
+        .iss-sum .bar2 { flex: 1; min-width: 60px; height: 8px; background: #EFE8DA; border-radius: 99px; overflow: hidden; }
+        .iss-sum .bar2 i { display: block; height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .5s cubic-bezier(.3, 1.2, .5, 1); }
+        .issues { list-style: none; display: grid; gap: 10px; }
+        .iss {
+            position: relative; display: grid; grid-template-columns: 28px 1fr auto; gap: 2px 12px; align-items: center;
+            padding: 12px 14px; border: 1px solid var(--line); border-radius: 18px; background: #fff; transition: border-color .2s, background .3s, box-shadow .2s;
+        }
+        .iss.hot { border-color: var(--slate); box-shadow: 0 0 0 3px rgba(90, 113, 148, .12); }
+        .iss.new { animation: popin .45s cubic-bezier(.3, 1.5, .5, 1); }
+        .iss .no { grid-row: span 2; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-family: var(--num); font-stretch: 125%; font-size: 12px; font-weight: 800; color: #fff; background: var(--slate); transition: background .3s; }
+        .iss .tt { font-size: 14px; font-weight: 700; line-height: 1.45; }
+        .iss .mt { font-size: 12px; color: var(--muted); }
+        .sev { grid-row: span 2; border: 1px solid transparent; border-radius: 999px; padding: 2px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+        .sev[data-v="軽度"] { background: var(--terra-soft); color: #C27A3F; border-color: #F1D3B9; }
+        .sev[data-v="中度"] { background: #F9E3E1; color: #C9534F; border-color: #F0C5C2; }
+        .sev[data-v="重度"] { background: #F2CFCF; color: #A12F2F; border-color: #E2A9A9; }
+        .seg { grid-column: 2 / 4; display: inline-flex; justify-self: start; margin-top: 6px; background: #F4EFE5; border-radius: 999px; padding: 3px; }
+        .seg button { border: 0; background: none; border-radius: 999px; padding: 3px 12px; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; transition: background .2s, color .2s; }
+        .seg button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(42, 49, 66, .12); }
+        .seg button[data-v="完了"][aria-pressed="true"] { background: var(--green); color: #fff; }
+        .iss.done { background: #F6FBF7; }
+        .iss.done .no { background: var(--green); }
+        .iss.done .tt { text-decoration: line-through; text-decoration-color: rgba(63, 143, 97, .6); text-decoration-thickness: 2px; }
+        .stamp {
+            position: absolute; right: 16px; top: 14px; pointer-events: none; font-family: var(--head); font-weight: 900; font-size: 18px; letter-spacing: .1em;
+            color: rgba(63, 143, 97, .8); border: 3px solid rgba(63, 143, 97, .7); border-radius: 10px; padding: 0 9px; opacity: 0;
+            transform: rotate(-12deg) scale(1.8);
+        }
+        .iss.done .stamp { animation: stamp .4s cubic-bezier(.3, 1.5, .5, 1) forwards; }
+        @keyframes stamp { to { opacity: 1; transform: rotate(-12deg) scale(1); } }
+        .iss.done .sev { visibility: hidden; }
+
+        /* ---------- Q5 出費 ---------- */
+        .styles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 26px; }
+        .style {
+            text-align: left; border: 1.5px solid var(--line); background: #fff; border-radius: 16px; padding: 12px 14px; cursor: pointer; line-height: 1.5;
+            transition: border-color .2s, background .2s, transform .15s;
+        }
+        .style:hover { border-color: var(--terra); }
+        .style:active { transform: scale(.98); }
+        .style b { display: block; font-size: 14.5px; }
+        .style small { font-size: 11.5px; color: var(--muted); }
+        .style[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+        .style[aria-pressed="true"] small { color: #C3CADA; }
+        .style:focus-visible { outline: 3px solid var(--slate); outline-offset: 2px; }
+        .spend { display: grid; grid-template-columns: 220px 1fr; gap: 26px; align-items: center; }
+        .donut { position: relative; width: 220px; height: 220px; }
+        .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .donut circle { fill: none; stroke-width: 30; transition: stroke-dasharray .7s cubic-bezier(.3, 1.1, .5, 1), stroke-dashoffset .7s cubic-bezier(.3, 1.1, .5, 1); }
+        .donut .mid { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .donut .mid small { font-size: 12px; color: var(--muted); }
+        .donut .mid b { font-family: var(--num); font-stretch: 125%; font-weight: 800; font-size: 30px; line-height: 1.2; }
+        .lgd { list-style: none; display: grid; gap: 6px; min-height: 60px; }
+        .lgd li { display: grid; grid-template-columns: 12px 1fr auto; gap: 10px; align-items: center; font-size: 13.5px; animation: popin .4s ease both; }
+        .lgd li i { width: 12px; height: 12px; border-radius: 4px; }
+        .lgd li span:last-child { font-family: var(--num); font-stretch: 125%; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+        .per { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .per div { background: #F7F2E8; border-radius: 14px; padding: 10px 14px; }
+        .per small { display: block; font-size: 11.5px; color: var(--muted); font-weight: 700; }
+        .per b { font-family: var(--num); font-stretch: 125%; font-size: 20px; font-weight: 800; }
+        .quip { margin-top: 16px; font-family: var(--hand); font-weight: 600; font-size: 16px; color: var(--slate-dark); line-height: 1.6; }
+        .spend-note { margin-top: 14px; font-size: 11.5px; color: var(--muted); }
+
+        /* ==================== ほかにも ==================== */
+        .more { padding: 100px 0 110px; }
+        .more h2 { font-family: var(--head); font-weight: 900; font-size: clamp(26px, 3.8vw, 40px); text-align: center; margin-bottom: 44px; line-height: 1.45; }
+        .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .tile { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px 22px 20px; transition: transform .25s, box-shadow .25s; }
+        .tile:hover { transform: translateY(-4px); box-shadow: 0 16px 30px -14px rgba(42, 49, 66, .25); }
+        .tile svg { width: 40px; height: 40px; margin-bottom: 12px; }
+        .tile h3 { font-family: var(--head); font-weight: 900; font-size: 17px; margin-bottom: 4px; }
+        .tile p { font-size: 13.5px; color: #4A5468; line-height: 1.75; }
+
+        /* ==================== CTA ==================== */
+        .cta { position: relative; overflow: hidden; background: var(--slate-dark); color: #fff; text-align: center; padding: 110px 0 120px; }
+        .cta .bg-rings { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        .cta .wrap { position: relative; }
+        .cta .q { font-family: var(--hand); font-weight: 600; font-size: clamp(19px, 2.6vw, 26px); color: #D7DEEA; margin-bottom: 8px; }
+        .cta h2 { font-family: var(--head); font-weight: 900; font-size: clamp(30px, 5.4vw, 60px); line-height: 1.35; margin-bottom: 18px; }
+        .cta h2 b { color: #F2B887; }
+        .cta p.sub { color: rgba(255, 255, 255, .85); margin-bottom: 36px; }
+        .cta .stores { justify-content: center; }
+
+        footer { padding: 36px 0 44px; text-align: center; font-size: 13px; color: var(--muted); }
+        footer a { margin: 0 10px; }
+        footer .tm { margin: 14px auto 0; padding: 0 20px; max-width: 600px; font-size: 11px; line-height: 1.7; opacity: .85; }
+
+        /* ---------- スマホ用の追従バー ---------- */
+        .bar {
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: none;
+            padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+            background: rgba(255, 249, 238, .92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+            box-shadow: 0 -6px 24px rgba(20, 30, 50, .12); transform: translateY(110%); visibility: hidden; transition: transform .3s ease, visibility 0s linear .3s;
+        }
+        .bar.show { transform: none; visibility: visible; transition: transform .3s ease, visibility 0s; }
+        .bar-inner { display: flex; gap: calc(var(--badge-h) / 4); max-width: 520px; margin: 0 auto; justify-content: center; align-items: center; }
+        .bar { --badge-h: 46px; }
+        @media (max-width: 350px) { .bar { --badge-h: 40px; } }
+
+        /* ---------- スクロールで現れる ---------- */
+        .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, 1, .3, 1); }
+        .js .reveal.in { opacity: 1; transform: none; }
+
+        /* ==================== レスポンシブ ==================== */
+        @media (max-width: 960px) {
+            .hero-grid { grid-template-columns: 1fr; min-height: 0; text-align: center; gap: 10px; }
+            .hero-text { display: flex; flex-direction: column; align-items: center; }
+            .hero .lead { margin-left: auto; margin-right: auto; }
+            .stores, .hero .note { justify-content: center; }
+            .hero-visual { height: 560px; max-width: 460px; width: 100%; margin: 0 auto; }
+            .chap-body, .chap.flipside .chap-body { grid-template-columns: 1fr; gap: 34px; }
+            .side { display: contents; }
+            .side .lead { margin-bottom: 0; }
+            .mini { order: 3; justify-content: center; }
+            .tiles { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .wrap { padding: 0 18px; }
+            .hero { padding-top: 24px; }
+            .logo { margin-bottom: 20px; }
+            .hero-visual { height: 480px; }
+            .hero-phone { width: 196px; }
+            .rings { width: 420px; height: 420px; }
+            .memo-wrap { width: 138px; }
+            .memo { height: 80px; }
+            .face.front { font-size: 14px; padding: 8px 11px; }
+            .face.back { padding: 8px 11px; }
+            .face.back b { font-size: 21px; }
+            .face.back b.jp { font-size: 17px; }
+            .memo-wrap.m1 { top: 34px; left: -4px; }
+            .memo-wrap.m2 { top: 112px; right: -6px; }
+            .memo-wrap.m3 { bottom: 104px; left: -2px; }
+            .memo-wrap.m4 { bottom: 40px; right: -2px; }
+            .toc { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 14px -18px 0; padding: 4px 18px 8px; }
+            .toc::-webkit-scrollbar { display: none; }
+            .toc a { flex: none; }
+            .chap { padding: 80px 0; }
+            .chap-head { margin-bottom: 26px; }
+            .demo { padding: 26px 16px 20px; border-radius: 24px; }
+            .cyc-top { grid-template-columns: 1fr; gap: 18px; justify-items: center; }
+            .cyc-top > div:last-child { width: 100%; }
+            .ring { width: 184px; height: 184px; }
+            .ntf li { grid-template-columns: 30px 1fr; padding: 10px 12px; }
+            .ntf .bell, .ntf .bell img { width: 30px; height: 30px; }
+            .ntf .when { grid-row: auto; text-align: left; }
+            .ntf .b { grid-column: 2; }
+            .ntf .when i { display: inline; margin-left: 8px; }
+            .cell { min-height: 50px; font-size: 12px; }
+            .cell svg { width: 18px; height: 15px; }
+            .days3 { gap: 6px; }
+            .d3 { padding: 10px 4px; border-radius: 14px; }
+            .d3 .w { font-size: 14px; }
+            .d3 .w small { display: block; margin: 0; }
+            .d3 svg { width: 44px; height: 38px; }
+            .d3 .tl { font-size: 11.5px; }
+            .vd { padding: 2px 7px; font-size: 11px; }
+            .shelf { gap: 6px; }
+            .btl-meta .nm { font-size: 12px; }
+            .iss { padding: 12px; gap: 2px 10px; }
+            .seg button { padding: 3px 10px; }
+            .spend { grid-template-columns: 1fr; justify-items: center; }
+            .spend > div:last-child { width: 100%; }
+            .styles { gap: 8px; }
+            .style { padding: 10px 12px; }
+            .mini .phone { width: 160px; }
+            .tiles { grid-template-columns: 1fr; gap: 12px; }
+            .tile { display: grid; grid-template-columns: 40px 1fr; gap: 0 14px; padding: 18px; }
+            .tile svg { grid-row: span 2; margin: 2px 0 0; }
+            .bar { display: block; }
+            .cta { padding: 90px 0 100px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            html { scroll-behavior: auto; }
+            .js .reveal { opacity: 1; transform: none; }
+            .chap h2 .scrib path { stroke-dashoffset: 0; }
+            .iss.done .stamp { opacity: 1; transform: rotate(-12deg); }
+        }
+    </style>
+    <script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+    <!-- ==================== ヒーロー ==================== -->
+    <header class="hero">
+        <div class="wrap">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <div class="logo"><img src="img/icon.png" alt="" width="44" height="44"><span class="wordmark" aria-label="CAReLOG">CAR<i>e</i>LOG</span></div>
+                    <p class="eyebrow">洗車・メンテナンスの記録アプリ</p>
+                    <h1>
+                        <span class="q">愛車の<em>「いつだっけ？」</em>を、</span>
+                        <span class="a"><span class="ph">ぜんぶ</span><span class="ph"><b>覚えておく。</b></span></span>
+                    </h1>
+                    <p class="lead"><span class="ph">洗車した日、用品の残り、</span><span class="ph">キズの経過、かけたお金。</span><span class="ph">CAReLOG がまとめて覚えて、</span><span class="ph">次の洗車日は通知で知らせて、</span><span class="ph">天気も見ながら決められます。</span></p>
+                    <div class="stores" id="hero-stores">
+                        <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6829361767"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+                        <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.carelog.carelog"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
+                    </div>
+                    <p class="note"><i>無料</i><i>会員登録なし</i><i>記録は端末の中に保存</i></p>
+                </div>
+
+                <div class="hero-visual">
+                    <svg class="rings" viewBox="0 0 560 560" aria-hidden="true">
+                        <circle cx="280" cy="280" r="270" stroke="rgba(90,113,148,.09)" stroke-width="1.5"/>
+                        <circle cx="280" cy="280" r="215" stroke="rgba(90,113,148,.1)" stroke-width="10"/>
+                        <circle class="r-run" cx="280" cy="280" r="215"/>
+                        <circle cx="280" cy="280" r="160" stroke="rgba(90,113,148,.1)" stroke-width="1.5" stroke-dasharray="3 9"/>
+                    </svg>
+                    <div class="hero-phone"><div class="phone"><img src="img/01_home.jpg" alt="CAReLOG のホーム画面。前回の洗車からの日数・年間の洗車回数・総投資額の3つのリングと、カレンダー" width="639" height="1391"></div></div>
+
+                    <div class="memo-wrap m1"><button class="memo" type="button" aria-label="前回いつ洗ったっけ？（タップで答え: 2日前）"><span class="face front">前回いつ<br>洗ったっけ？</span><span class="face back" aria-hidden="true"><small>前回の洗車</small><b>2<span>日前</span></b><span class="tag terra">手洗い洗車</span></span></button></div>
+                    <div class="memo-wrap m2"><button class="memo" type="button" aria-label="シャンプー、まだあったっけ？（タップで答え: 残り18%）"><span class="face front">シャンプー、<br>まだあったっけ？</span><span class="face back" aria-hidden="true"><small>カーシャンプー</small><b class="warn">18<span>%</span></b><span class="tag red">そろそろ買い足し</span></span></button></div>
+                    <div class="memo-wrap m3"><button class="memo" type="button" aria-label="あの飛び石キズ、どうなった？（タップで答え: 対応中）"><span class="face front">あの飛び石キズ、<br>どうなった？</span><span class="face back" aria-hidden="true"><small>フロントバンパー</small><b class="jp">対応中</b><span class="tag red">中度</span></span></button></div>
+                    <div class="memo-wrap m4"><button class="memo" type="button" aria-label="今年、何回洗ったっけ？（タップで答え: 32回）"><span class="face front">今年、<br>何回洗ったっけ？</span><span class="face back" aria-hidden="true"><small>年間の洗車回数</small><b>32<span>回</span></b><span class="tag slate">月平均 3.2回</span></span></button></div>
+                    <p class="memo-hint" aria-hidden="true">メモをタップすると答えが出ます</p>
+                </div>
+            </div>
+
+            <nav class="toc" aria-label="この先の内容">
+                <a href="#q1"><b>Q1</b>前回いつ洗った？</a>
+                <a href="#q2"><b>Q2</b>次はいつ洗える？</a>
+                <a href="#q3"><b>Q3</b>用品、まだある？</a>
+                <a href="#q4"><b>Q4</b>あのキズは？</a>
+                <a href="#q5"><b>Q5</b>いくらかけた？</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== Q1 経過日数と周期 ==================== -->
+    <section class="chap alt" id="q1">
+        <div class="wrap">
+            <div class="chap-head reveal">
+                <span class="qno">Q.01</span>
+                <h2>前回、<span class="scrib">いつ洗ったっけ？<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C40 2 80 11 120 5 S180 4 198 7"/></svg></span></h2>
+                <p class="ans" aria-live="polite"><span class="amark">A.</span><span id="a1"></span></p>
+            </div>
+            <div class="chap-body">
+                <div class="side">
+                    <p class="lead reveal"><span class="ph">洗ったら、記録をひとつ。</span><span class="ph">あとは CAReLOG が</span><span class="ph">経過日数を数えて、</span><span class="ph">決めた周期が近づくと</span><span class="ph"><b>3日前・前日・当日の朝9時</b>に</span><span class="ph">通知でお知らせします。</span></p>
+                    <figure class="mini reveal"><div class="phone"><img src="img/03_records.jpg" alt="洗車記録の一覧画面" width="639" height="1391" loading="lazy"></div><figcaption>記録には日付・作業・天気・<br>費用・写真まで残せます</figcaption></figure>
+                </div>
+
+                <div class="demo reveal">
+                    <span class="try"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v5"/><path d="M13 10a2 2 0 0 1 4 0v2a2 2 0 0 1 3 1.7V16a6 6 0 0 1-6 6h-1.5a6 6 0 0 1-5-2.7L5 15.5a2 2 0 0 1 3.3-2.3L9 14"/></svg>TRY IT</span>
+                    <div class="cyc-top">
+                        <div>
+                            <div class="ring" id="ring">
+                                <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="trk" cx="60" cy="60" r="52"/><circle class="prg" id="ring-p" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
+                                <div class="mid">
+                                    <span class="cap">前回洗車</span>
+                                    <span class="odo" id="odo" aria-hidden="true"></span>
+                                    <span class="unit">日前</span>
+                                </div>
+                            </div>
+                            <p class="ring-note" id="ring-note"></p>
+                        </div>
+                        <div>
+                            <div class="ruler">
+                                <label class="lbl" for="days">前回の洗車は何日前？</label>
+                                <input class="rng" type="range" id="days" min="0" max="40" value="5">
+                                <div class="scale" aria-hidden="true"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span></div>
+                            </div>
+                            <span class="lbl" id="cyc-lbl">洗車の推奨周期</span>
+                            <div class="chips" id="cycles" role="group" aria-labelledby="cyc-lbl">
+                                <button class="chip" type="button" data-v="3">3日</button>
+                                <button class="chip" type="button" data-v="5">5日</button>
+                                <button class="chip" type="button" data-v="7" aria-pressed="true">7日</button>
+                                <button class="chip" type="button" data-v="10">10日</button>
+                                <button class="chip" type="button" data-v="14">14日</button>
+                                <button class="chip" type="button" data-v="30">30日</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert" id="alert" role="status" hidden><span class="ico" id="alert-ico"></span><span id="alert-t"></span></div>
+
+                    <div class="next"><span class="lbl">次回の洗車予定日</span><b id="next-d"></b></div>
+                    <ul class="ntf" id="ntf" aria-label="予約される通知"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Q2 天気とカレンダー ==================== -->
+    <section class="chap flipside" id="q2">
+        <div class="wrap">
+            <div class="chap-head reveal">
+                <span class="qno">Q.02</span>
+                <h2>次は、<span class="scrib">いつ洗える？<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C50 11 90 2 140 7 S185 9 198 5"/></svg></span></h2>
+                <p class="ans" aria-live="polite"><span class="amark">A.</span><span id="a2">天気予報を確認しています…</span></p>
+            </div>
+            <div class="chap-body">
+                <div class="side">
+                    <p class="lead reveal"><span class="ph">洗った翌日に雨、</span><span class="ph">はもう避けたい。</span><span class="ph">ホームのカレンダーには、</span><span class="ph">洗車した日と</span><span class="ph"><b>3日分の天気予報</b>が</span><span class="ph">並びます。</span><span class="ph">予定日と空模様を見比べて、</span><span class="ph">洗う日を決められます。</span></p>
+                    <p class="lead sm reveal">このカレンダーは、Q1 で決めた前回の洗車日と次の予定日に連動しています。</p>
+                </div>
+
+                <div class="demo reveal" id="forecast">
+                    <span class="try"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>LIVE</span>
+                    <div class="cities" id="cities" role="group" aria-label="都市を選ぶ">
+                        <button class="chip city" type="button" data-id="016010">札幌</button>
+                        <button class="chip city" type="button" data-id="040010">仙台</button>
+                        <button class="chip city" type="button" data-id="110010">さいたま</button>
+                        <button class="chip city" type="button" data-id="120010">千葉</button>
+                        <button class="chip city" type="button" data-id="130010">東京</button>
+                        <button class="chip city" type="button" data-id="140010">横浜</button>
+                        <button class="chip city" type="button" data-id="150010">新潟</button>
+                        <button class="chip city" type="button" data-id="170010">金沢</button>
+                        <button class="chip city" type="button" data-id="230010">名古屋</button>
+                        <button class="chip city" type="button" data-id="260010">京都</button>
+                        <button class="chip city" type="button" data-id="270000">大阪</button>
+                        <button class="chip city" type="button" data-id="280010">神戸</button>
+                        <button class="chip city" type="button" data-id="340010">広島</button>
+                        <button class="chip city" type="button" data-id="370000">高松</button>
+                        <button class="chip city" type="button" data-id="400010">福岡</button>
+                        <button class="chip city" type="button" data-id="471010">那覇</button>
+                    </div>
+                    <div class="cal-head">
+                        <div class="cal-nav"><button type="button" id="cal-prev" aria-label="前の月">‹</button><b id="cal-title" aria-live="polite"></b><button type="button" id="cal-next" aria-label="次の月">›</button></div>
+                        <div class="legend" aria-hidden="true">
+                            <span><svg viewBox="0 0 40 24"><use href="#car-ico"/></svg>洗車した日</span>
+                            <span><i class="k-plan"></i>洗車予定日</span>
+                        </div>
+                    </div>
+                    <div class="cal" id="cal"></div>
+                    <div class="days3" id="days3" aria-live="polite"></div>
+                    <p class="fc-msg" id="fc-msg"></p>
+                    <p class="fc-src">翌日まで雨や雪の予報がない日を「洗車日和」としています。天気予報は気象庁の発表をもとにした <a href="https://weather.tsukumijima.net/" target="_blank" rel="noopener">天気予報 API</a> から取得しています（アプリも同じ予報を使っています）。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Q3 用品の残量 ==================== -->
+    <section class="chap alt" id="q3">
+        <div class="wrap">
+            <div class="chap-head reveal">
+                <span class="qno">Q.03</span>
+                <h2>シャンプー、<span class="scrib">まだあったっけ？<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 C40 3 70 10 110 6 S170 2 198 8"/></svg></span></h2>
+                <p class="ans" aria-live="polite"><span class="amark">A.</span><span id="a3"></span></p>
+            </div>
+            <div class="chap-body">
+                <div class="side">
+                    <p class="lead reveal"><span class="ph">洗う直前に「切れてた」は、</span><span class="ph">けっこう悲しい。</span><span class="ph">シャンプーやコーティング剤の残りを</span><span class="ph">スライダーで記録しておけば、</span><span class="ph"><b>30%を切った用品</b>を</span><span class="ph">洗車の2日前に知らせてくれます。</span></p>
+                    <figure class="mini reveal"><div class="phone"><img src="img/04_products.jpg" alt="用品在庫の画面。用品ごとの残量バー" width="639" height="1391" loading="lazy"></div><figcaption>評価や価格もメモして、<br>買い足しの参考に</figcaption></figure>
+                </div>
+
+                <div class="demo reveal">
+                    <span class="try"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5"/></svg>DRAG</span>
+                    <div class="notif off" id="notif" role="status">
+                        <img src="img/icon.png" alt="" width="38" height="38">
+                        <span class="nt">用品の補充をお忘れなく</span>
+                        <span class="nw" id="notif-w"></span>
+                        <span class="nb">残量が少ない用品があります。洗車前に確認してください。</span>
+                    </div>
+                    <p class="notif-when off" id="notif-when"></p>
+                    <p class="notif-idle" id="notif-idle">どれかを30%より下げると、通知が届きます。</p>
+                    <div class="shelf" id="shelf"></div>
+                    <div class="shelf-foot">
+                        <p>ボトルを上下になぞると残量が変わります</p>
+                        <button class="btn" type="button" id="use"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7s6 6.6 6 11.1a6 6 0 0 1-12 0C6 9.3 12 2.7 12 2.7z"/></svg>洗車1回ぶん使う</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Q4 キズの管理 ==================== -->
+    <section class="chap flipside" id="q4">
+        <div class="wrap">
+            <div class="chap-head reveal">
+                <span class="qno">Q.04</span>
+                <h2>あのキズ、<span class="scrib">どうなったっけ？<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5 C30 10 80 3 120 8 S175 6 198 4"/></svg></span></h2>
+                <p class="ans" aria-live="polite"><span class="amark">A.</span><span id="a4"></span></p>
+            </div>
+            <div class="chap-body">
+                <div class="side">
+                    <p class="lead reveal"><span class="ph">飛び石、こすりキズ、水ジミ。</span><span class="ph">気になる箇所を</span><span class="ph"><b>写真つき</b>で残して、</span><span class="ph">深刻度と対応状況を</span><span class="ph">「対応予定 → 対応中 → 完了」と</span><span class="ph">更新していけます。</span><span class="ph">修理にかかった費用も記録できます。</span></p>
+                    <figure class="mini reveal"><div class="phone"><img src="img/05_status.jpg" alt="車体状態の画面。キズごとの発見日・対応状況・深刻度" width="639" height="1391" loading="lazy"></div><figcaption>深刻度ごとに<br>色分けされます</figcaption></figure>
+                </div>
+
+                <div class="demo reveal">
+                    <span class="try"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>TAP</span>
+                    <div class="carbox">
+                        <span class="hint" id="car-hint">車をタップして、気になる箇所を追加</span>
+                        <svg id="car" viewBox="0 0 600 250" role="img" aria-label="車の側面図。登録した箇所に番号のピンが立ちます">
+                            <ellipse cx="300" cy="243" rx="270" ry="7" fill="rgba(42,49,66,.12)"/>
+                            <g id="car-art"></g>
+                            <g id="pins"></g>
+                        </svg>
+                    </div>
+                    <div class="iss-sum"><span id="iss-count"></span><span class="bar2"><i id="iss-bar"></i></span><button type="button" class="iss-add" id="iss-add">＋ 箇所を追加</button></div>
+                    <ul class="issues" id="issues"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Q5 出費 ==================== -->
+    <section class="chap alt" id="q5">
+        <div class="wrap">
+            <div class="chap-head reveal">
+                <span class="qno">Q.05</span>
+                <h2>結局、<span class="scrib">いくらかけたっけ？<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C50 3 90 10 130 5 S180 7 198 6"/></svg></span></h2>
+                <p class="ans" aria-live="polite"><span class="amark">A.</span><span id="a5"></span></p>
+            </div>
+            <div class="chap-body">
+                <div class="side">
+                    <p class="lead reveal"><span class="ph">用品の価格、洗車サービスの料金、</span><span class="ph">修理代。</span><span class="ph">記録した金額は自動で集計されて、</span><span class="ph"><b>カテゴリ別の円グラフ</b>で</span><span class="ph">見られます。</span><span class="ph">知ると、ちょっと誇らしい。</span><span class="ph">たまに、ちょっとびっくり。</span></p>
+                    <figure class="mini reveal"><div class="phone"><img src="img/02_investment.jpg" alt="カテゴリ別投資額の円グラフ" width="639" height="1391" loading="lazy"></div><figcaption>ホームの「総投資額」を<br>タップすると開きます</figcaption></figure>
+                </div>
+
+                <div class="demo reveal">
+                    <span class="try"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12A9 9 0 1 1 12 3v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg>PICK</span>
+                    <span class="lbl" id="style-lbl">あなたはどの派？（1年分の例）</span>
+                    <div class="styles" id="styles" role="group" aria-labelledby="style-lbl"></div>
+                    <div class="spend">
+                        <div class="donut">
+                            <svg viewBox="0 0 200 200" id="donut" aria-hidden="true"><circle cx="100" cy="100" r="72" stroke="#F1E9DA"/></svg>
+                            <div class="mid"><small>合計</small><b id="total">¥0</b></div>
+                        </div>
+                        <div>
+                            <ul class="lgd" id="lgd"></ul>
+                            <div class="per">
+                                <div><small>年間の洗車回数</small><b id="cnt">-</b></div>
+                                <div><small>1回あたり</small><b id="per1">-</b></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="quip" id="quip"></p>
+                    <p class="spend-note">金額はイメージです。アプリでは、あなたが記録した金額から集計します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ほかにも ==================== -->
+    <section class="more">
+        <div class="wrap">
+            <h2 class="reveal"><span class="ph">ほかにも、</span><span class="ph">覚えておけること。</span></h2>
+            <div class="tiles">
+                <div class="tile reveal">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="#B4672F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="6" width="26" height="30" rx="4"/><path d="M13 14h14M13 21h14M13 28h8"/></svg>
+                    <h3>6種類の作業を記録</h3>
+                    <p>洗車・コーティング施工・鉄粉除去・ワックス・水洗い・その他。並べ替えや絞り込みもできます。</p>
+                </div>
+                <div class="tile reveal">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="#5A7194" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 33V20M15 33V12M24 33V17M33 33V7"/></svg>
+                    <h3>年間の洗車回数</h3>
+                    <p>月ごとのグラフで、今年どれだけ手をかけたかをふり返れます。</p>
+                </div>
+                <div class="tile reveal">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="#B4672F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 24l3-7c1-2 2-3 5-3h12c3 0 4 1 6 3l4 4c1 1 2 2 2 4v3H4z"/><circle cx="11" cy="28" r="3.2"/><circle cx="29" cy="28" r="3.2"/></svg>
+                    <h3>複数台をまとめて</h3>
+                    <p>自分の車も家族の車も。車両ごとに記録を分けて管理できます。</p>
+                </div>
+                <div class="tile reveal">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="#5A7194" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="9" width="26" height="22" rx="4"/><circle cx="20" cy="20" r="5"/><path d="M14 9l2-3h8l2 3"/></svg>
+                    <h3>写真とメモ</h3>
+                    <p>洗車の仕上がり、用品、キズの様子。あとから見返すと案外おもしろい。</p>
+                </div>
+                <div class="tile reveal">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="#3F8F61" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="11" y="4" width="18" height="32" rx="4"/><path d="M17 31h6"/><path d="M16 16l3 3 5-6"/></svg>
+                    <h3>登録なし・端末に保存</h3>
+                    <p>メールアドレスもログインも不要。記録はスマホの中にだけ保存されます。</p>
+                </div>
+                <div class="tile reveal">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="#5A7194" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 30h17a7 7 0 0 0 1-14 10 10 0 0 0-19-2 8 8 0 0 0 1 16z"/><path d="M20 26v-9M16 21l4-4 4 4"/></svg>
+                    <h3>Google ドライブにバックアップ</h3>
+                    <p>機種変更にそなえて保存・復元できます。使うかどうかは自由です。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA ==================== -->
+    <section class="cta" id="download">
+        <svg class="bg-rings" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g fill="none" stroke="rgba(255,255,255,.06)">
+                <circle cx="120" cy="520" r="200" stroke-width="22"/>
+                <circle cx="1100" cy="80" r="160" stroke-width="18"/>
+                <circle cx="1100" cy="80" r="240" stroke-width="1.5"/>
+            </g>
+            <circle cx="120" cy="520" r="200" fill="none" stroke="rgba(242,184,135,.35)" stroke-width="22" stroke-linecap="round" stroke-dasharray="700 1300" transform="rotate(-90 120 520)"/>
+            <circle cx="1100" cy="80" r="160" fill="none" stroke="rgba(242,184,135,.25)" stroke-width="18" stroke-linecap="round" stroke-dasharray="380 1100" transform="rotate(40 1100 80)"/>
+        </svg>
+        <div class="wrap">
+            <p class="q reveal">前回いつ洗ったっけ……？</p>
+            <h2 class="reveal"><span class="ph">その「いつだっけ？」は、</span><br><span class="ph"><b>今日でおしまい。</b></span></h2>
+            <p class="sub reveal"><span class="ph">ダウンロードは無料。</span><span class="ph">会員登録なしで、</span><span class="ph">すぐ記録をはじめられます。</span></p>
+            <div class="stores">
+                <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6829361767"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+                <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.carelog.carelog"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>
+            <a href="/carelog/support.html">サポート</a>
+            <a href="/carelog/privacy-policy.html">プライバシーポリシー</a>
+        </p>
+        <p class="tm">Apple および Apple ロゴは米国その他の国で登録された Apple Inc. の商標です。App Store は Apple Inc. のサービスマークです。<br>Google Play および Google Play ロゴは Google LLC の商標です。</p>
+        <p style="margin-top:10px;">&copy; seisaily</p>
+    </footer>
+
+    <div class="bar" id="bar"><div class="bar-inner">
+        <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6829361767"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
+        <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.carelog.carelog"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
+    </div></div>
+
+    <!-- 使い回すアイコン -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="car-ico" viewBox="0 0 40 24"><path d="M3 17l3-6c1-2 2-3 5-3h12c3 0 4 1 6 3l5 3c1 1 3 1 3 3v3H3z" fill="#D4915D"/><circle cx="11" cy="20" r="3.4" fill="#2A3142"/><circle cx="30" cy="20" r="3.4" fill="#2A3142"/></symbol>
+    </svg>
+
+    <script>
+    (function () {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var NS = 'http://www.w3.org/2000/svg';
+        function $(id) { return document.getElementById(id); }
+        function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+        /* ---------- 端末判定とストア ---------- */
+        var ua = navigator.userAgent || '';
+        var os = 'other';
+        if (/android/i.test(ua)) os = 'android';
+        else if (/iPhone|iPad|iPod/i.test(ua) ||
+                 // iPadOS 13 以降は Mac と名乗るので、タッチ点の数で見分ける
+                 (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) os = 'ios';
+        document.body.setAttribute('data-os', os);
+
+        function track(name, params) {
+            if (typeof gtag !== 'function') return;
+            params = params || {};
+            params.app = 'carelog';
+            gtag('event', name, params);
+        }
+        var usedOnce = {};
+        function used(demo) { if (usedOnce[demo]) return; usedOnce[demo] = true; track('lp_demo_use', { demo: demo }); }
+
+        document.querySelectorAll('.store').forEach(function (a) {
+            a.addEventListener('click', function () { track('app_download_click', { platform: a.dataset.platform, auto_redirect: false }); });
+        });
+
+        // QR コードや広告から直接ストアへ送りたいとき用: /carelog/download/?go=1
+        if (/[?&]go=1(&|$)/.test(location.search) && (os === 'ios' || os === 'android')) {
+            var target = document.querySelector('.store[data-platform="' + os + '"]');
+            track('app_download_click', { platform: os, auto_redirect: true });
+            setTimeout(function () { location.replace(target.href); }, 150);
+        }
+
+        /* ---------- 日付の道具 ---------- */
+        var WD = '日月火水木金土';
+        var TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+        function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+        function md(d) { return (d.getMonth() + 1) + '/' + d.getDate() + '（' + WD.charAt(d.getDay()) + '）'; }
+        function ymd(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+        function dotted(d) { return d.getFullYear() + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + ('0' + d.getDate()).slice(-2); }
+        function sameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+
+        /* ==========================================================
+           ヒーローのメモ（表＝問い、裏＝アプリの答え）
+           ========================================================== */
+        var memos = Array.prototype.slice.call(document.querySelectorAll('.memo'));
+        var touched = 0;
+        memos.forEach(function (m) {
+            m.addEventListener('click', function () { m.classList.toggle('flip'); touched = Date.now(); used('memo'); });
+        });
+        if (!reduce) {
+            var mi = 0;
+            setInterval(function () {
+                if (Date.now() - touched < 6000 || document.hidden) return;
+                memos[mi % memos.length].classList.toggle('flip');
+                mi++;
+            }, 1700);
+        }
+
+        /* ==========================================================
+           Q1 経過日数と周期（アプリの AlertBanner・通知と同じ条件）
+           ========================================================== */
+        var state = { days: 5, cycle: 7 };
+        var odo = $('odo');
+        odo.innerHTML = [0, 1].map(function () {
+            return '<span class="dg">' + '0123456789'.split('').map(function (n) { return '<span>' + n + '</span>'; }).join('') + '</span>';
+        }).join('');
+        var dgs = odo.querySelectorAll('.dg');
+        var ICO_WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
+        var ICO_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+        var lastKind = '';
+
+        function lastWash() { return addDays(TODAY, -state.days); }
+        function nextWash() { return addDays(lastWash(), state.cycle); }
+
+        function renderCycle() {
+            var d = state.days, c = state.cycle, remain = c - d;
+            // 走行距離計のように桁ごとに回す
+            var s = ('0' + d).slice(-2);
+            dgs[0].style.transform = 'translateY(' + (-s.charAt(0)) + 'em)';
+            dgs[1].style.transform = 'translateY(' + (-s.charAt(1)) + 'em)';
+            dgs[0].classList.toggle('lead0', d < 10);
+
+            $('ring-p').style.strokeDashoffset = (326.7 * (1 - Math.min(d / c, 1))).toFixed(1);
+            $('ring').classList.toggle('over', d >= c);
+            var lw = lastWash();
+            $('ring-note').textContent = d === 0 ? '今日 実施' : lw.getFullYear() + '年' + (lw.getMonth() + 1) + '月' + lw.getDate() + '日 実施';
+            $('days').setAttribute('aria-valuetext', d + '日前');
+
+            var msg = '', kind = '', ico = ICO_WARN;
+            if (d >= c) { msg = '前回の洗車から' + d + '日が経過。推奨周期を' + (d - c) + '日超過しています'; kind = 'over'; }
+            else if (remain <= 2) { msg = '次回の洗車まであと' + remain + '日です'; kind = 'soon'; ico = ICO_CLOCK; }
+            var al = $('alert');
+            if (msg) {
+                al.hidden = false;
+                $('alert-t').textContent = msg;
+                $('alert-ico').innerHTML = ico;
+                if (kind !== lastKind) { al.classList.remove('pop'); void al.offsetWidth; al.classList.add('pop'); }
+            } else al.hidden = true;
+            lastKind = kind;
+
+            var nx = nextWash();
+            $('next-d').textContent = md(nx) + (nx < TODAY ? '（過ぎています）' : '');
+
+            // 通知は朝9時。もう過ぎた日時のものは予約されない（アプリと同じ）
+            var now = new Date();
+            var items = [
+                { off: -3, t: '洗車リマインダー', b: '3日後が洗車予定日です。準備はいかがですか？' },
+                { off: -1, t: '洗車リマインダー', b: '明日は洗車予定日です！' },
+                { off: 0, t: '今日は洗車日です！', b: '洗車予定日です。天気を確認してみましょう。' }
+            ];
+            $('ntf').innerHTML = items.map(function (it) {
+                var at = addDays(nx, it.off); at.setHours(9, 0, 0, 0);
+                var past = at <= now;
+                return '<li class="' + (past ? 'past' : '') + '"><span class="bell"><img src="img/icon.png" alt=""></span>' +
+                    '<span class="t">' + it.t + '</span>' +
+                    '<span class="when">' + md(at) + ' 9:00<i>' + (past ? '過ぎたので送りません' : '予約済み') + '</i></span>' +
+                    '<span class="b">' + it.b + '</span></li>';
+            }).join('');
+
+            $('a1').textContent = d === 0
+                ? '今日洗いました。次は' + c + '日後の予定です。'
+                : d + '日前です。' + (d >= c ? '周期を' + (d - c) + '日すぎています。' : '次の洗車まであと' + remain + '日。');
+
+            renderCalendar();
+            if (fcData) renderForecast(fcData);
+            renderStockNotif();
+        }
+
+        $('days').addEventListener('input', function (e) { state.days = +e.target.value; renderCycle(); used('cycle'); });
+        document.querySelectorAll('#cycles .chip').forEach(function (b) {
+            b.addEventListener('click', function () {
+                state.cycle = +b.dataset.v;
+                document.querySelectorAll('#cycles .chip').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+                renderCycle(); used('cycle');
+            });
+        });
+
+        /* ==========================================================
+           Q2 カレンダーと天気予報
+           ========================================================== */
+        var ICON = {
+            sun: '<circle cx="38" cy="30" r="13" fill="#E9A15F"/><g stroke="#E9A15F" stroke-width="4" stroke-linecap="round"><path d="M38 6v6M38 48v6M14 30h6M56 30h6M21 13l4 4M51 43l4 4M55 13l-4 4M25 43l-4 4"/></g>',
+            cloud: '<path d="M20 48a12 12 0 0 1 1-24 16 16 0 0 1 30-3 11 11 0 0 1 4 27z" fill="#A9B6CA"/>',
+            suncloud: '<circle cx="28" cy="22" r="11" fill="#E9A15F"/><g stroke="#E9A15F" stroke-width="3.5" stroke-linecap="round"><path d="M28 3v5M9 22h5M14 8l3 3M42 8l-3 3"/></g><path d="M26 52a11 11 0 0 1 1-22 14 14 0 0 1 26-3 10 10 0 0 1 4 25z" fill="#A9B6CA"/>',
+            rain: '<path d="M20 40a12 12 0 0 1 1-24 16 16 0 0 1 30-3 11 11 0 0 1 4 27z" fill="#7F90AB"/><g stroke="#5A7194" stroke-width="3.5" stroke-linecap="round"><path d="M26 46l-3 8M38 46l-3 8M50 46l-3 8"/></g>',
+            snow: '<path d="M20 40a12 12 0 0 1 1-24 16 16 0 0 1 30-3 11 11 0 0 1 4 27z" fill="#A9B6CA"/><g fill="#7FA6D6"><circle cx="25" cy="50" r="3"/><circle cx="38" cy="54" r="3"/><circle cx="51" cy="50" r="3"/></g>'
+        };
+        function iconFor(t) {
+            if (/雪/.test(t)) return 'snow';
+            if (/雨|雷/.test(t)) return 'rain';
+            if (/^晴/.test(t)) return /曇/.test(t) ? 'suncloud' : 'sun';
+            if (/晴/.test(t)) return 'suncloud';
+            return 'cloud';
+        }
+        function maxRain(f) {
+            var m = -1, c = f.chanceOfRain || {};
+            for (var k in c) { var v = parseInt(c[k], 10); if (!isNaN(v) && v > m) m = v; }
+            return m;
+        }
+        function wet(f) { return /雨|雪|雷/.test(f.telop || '') || maxRain(f) >= 50; }
+        function judge(fs) {
+            return fs.map(function (f, i) {
+                var next = fs[i + 1];
+                if (wet(f)) return { cls: 'bad', label: '見送り' };
+                if (next && wet(next)) return { cls: 'soso', label: '翌日に崩れる' };
+                if (!next) return { cls: 'good', label: 'たぶん洗車日和' };
+                return { cls: 'good', label: '洗車日和' };
+            });
+        }
+
+        var fcData = null, fcByDate = {}, cityId = '130010', fcLoaded = false, cache = {}, lastFetch = 0;
+
+        // 表示する月。予定日が来月なら来月を出し、前後は矢印で行き来できる（前回の洗車日〜予定日の範囲）
+        var calView = null;
+        function monthIdx(d) { return d.getFullYear() * 12 + d.getMonth(); }
+        function calRange() {
+            var lw = lastWash(), nx = nextWash();
+            return [Math.min(monthIdx(lw), monthIdx(TODAY)), Math.max(monthIdx(nx), monthIdx(TODAY))];
+        }
+        function renderCalendar(keep) {
+            var nx0 = nextWash(), r = calRange();
+            if (!keep || calView === null) calView = nx0 < TODAY ? monthIdx(TODAY) : monthIdx(nx0);
+            calView = Math.max(r[0], Math.min(r[1], calView));
+            $('cal-prev').disabled = calView <= r[0];
+            $('cal-next').disabled = calView >= r[1];
+            var y = Math.floor(calView / 12), m = calView % 12;
+            $('cal-title').textContent = y + '年' + (m + 1) + '月';
+            var first = new Date(y, m, 1), start = addDays(first, -first.getDay());
+            var dim = new Date(y, m + 1, 0).getDate();
+            var weeks = Math.ceil((first.getDay() + dim) / 7);
+            var lw = lastWash(), nx = nextWash();
+            var h = WD.split('').map(function (w) { return '<span class="wd" aria-hidden="true">' + w + '</span>'; }).join('');
+            for (var i = 0; i < weeks * 7; i++) {
+                var d = addDays(start, i);
+                var cls = ['cell'];
+                if (d.getMonth() !== m) cls.push('other');
+                else if (d.getDay() === 0) cls.push('sun');
+                else if (d.getDay() === 6) cls.push('sat');
+                if (sameDay(d, TODAY)) cls.push('today');
+                if (sameDay(d, nx)) cls.push('plan');
+                var f = fcByDate[ymd(d)];
+                var inner = '<span class="n">' + d.getDate() + '</span>';
+                if (f) inner += '<svg viewBox="0 0 76 64" aria-hidden="true">' + ICON[iconFor(f.telop || '')] + '</svg>';
+                if (sameDay(d, lw)) inner += '<svg class="car" viewBox="0 0 40 24" aria-hidden="true"><use href="#car-ico"/></svg>';
+                var label = (d.getMonth() + 1) + '月' + d.getDate() + '日' + (sameDay(d, lw) ? '、洗車した日' : '') + (sameDay(d, nx) ? '、洗車予定日' : '') + (f ? '、' + f.telop : '');
+                h += '<span class="' + cls.join(' ') + '" role="img" aria-label="' + esc(label) + '">' + inner + '</span>';
+            }
+            $('cal').innerHTML = h;
+        }
+        $('cal-prev').addEventListener('click', function () { calView--; renderCalendar(true); });
+        $('cal-next').addEventListener('click', function () { calView++; renderCalendar(true); });
+
+        function skeleton() {
+            $('days3').innerHTML = [0, 1, 2].map(function () {
+                return '<div class="d3 sk"><p class="w">----</p><svg viewBox="0 0 76 64"></svg><p class="tl">読み込み中</p><p class="tp">--/--</p></div>';
+            }).join('');
+            $('fc-msg').textContent = '';
+            $('a2').textContent = '天気予報を確認しています…';
+        }
+
+        function renderForecast(fs) {
+            var v = judge(fs), nx = nextWash();
+            var firstGood = -1, planIdx = -1;
+            fs.forEach(function (f, i) {
+                if (sameDay(new Date(f.date + 'T00:00:00'), nx)) planIdx = i;
+                if (firstGood < 0 && v[i].cls === 'good') firstGood = i;
+            });
+            $('days3').innerHTML = '';
+            fs.forEach(function (f, i) {
+                var dt = new Date(f.date + 'T00:00:00');
+                var hi = f.temperature && f.temperature.max && f.temperature.max.celsius;
+                var lo = f.temperature && f.temperature.min && f.temperature.min.celsius;
+                var rain = maxRain(f);
+                var el = document.createElement('div');
+                el.className = 'd3' + (i === firstGood ? ' best' : '') + (i === planIdx ? ' isplan' : '');
+                el.innerHTML = '<p class="w"></p><svg viewBox="0 0 76 64" aria-hidden="true">' + ICON[iconFor(f.telop || '')] + '</svg>' +
+                    '<p class="tl"></p><p class="tp"><span class="hi">' + (hi ? (+hi) + '°' : '-') + '</span> / <span class="lo">' + (lo ? (+lo) + '°' : '-') + '</span></p>' +
+                    '<p class="rn">' + (rain >= 0 ? '降水 ' + rain + '%' : '&nbsp;') + '</p><span class="vd ' + v[i].cls + '">' + v[i].label + '</span>';
+                el.querySelector('.w').innerHTML = esc(f.dateLabel || '') + '<small>' + (dt.getMonth() + 1) + '/' + dt.getDate() + '</small>';
+                el.querySelector('.tl').textContent = f.telop || '';
+                $('days3').appendChild(el);
+            });
+
+            var name = document.querySelector('.city[data-id="' + cityId + '"]').textContent;
+            function lab(i) { return esc((fs[i].dateLabel || '') + '（' + (fs[i].telop || '') + '）'); }
+            var msg;
+            if (nx < TODAY) {
+                msg = '推奨周期はもう過ぎています。' + (firstGood >= 0 ? name + 'なら <b>' + lab(firstGood) + '</b> に洗うのがおすすめです。' : 'ただ、' + name + 'はこの3日間、洗車を見送ったほうがよさそうです。');
+            } else if (planIdx >= 0) {
+                var pl = esc(fs[planIdx].dateLabel || '');
+                if (v[planIdx].cls === 'good') msg = '洗車予定日の' + pl + 'は' + esc(fs[planIdx].telop || '') + '。<b>予定どおり洗えそうです。</b>';
+                else if (firstGood >= 0) msg = '洗車予定日の' + pl + 'は「' + v[planIdx].label + '」。<b>' + lab(firstGood) + '</b> にずらすのがおすすめです。';
+                else msg = '洗車予定日の' + pl + 'は「' + v[planIdx].label + '」。' + name + 'はこの3日間、見送ったほうがよさそうです。';
+            } else {
+                msg = '洗車予定日は' + md(nx) + '。予報が出ている3日間では、' + (firstGood >= 0 ? name + 'でいちばん近い洗車日和は <b>' + lab(firstGood) + '</b> です。' : name + 'は見送ったほうがよさそうです。');
+            }
+            $('fc-msg').innerHTML = msg;
+            $('a2').textContent = firstGood >= 0
+                ? name + 'は' + (fs[firstGood].dateLabel || '') + 'が' + v[firstGood].label + 'です。'
+                : name + 'はこの3日間、見送りが無難です。';
+        }
+
+        function setForecast(fs) {
+            fcData = fs; fcByDate = {};
+            fs.forEach(function (f) { fcByDate[f.date] = f; });
+            renderCalendar(true); renderForecast(fs);
+        }
+
+        function load(id) {
+            cityId = id;
+            if (cache[id]) return setForecast(cache[id]);
+            fcData = null; fcByDate = {}; renderCalendar(true); skeleton();
+            var ctrl = window.AbortController ? new AbortController() : null;
+            // 提供元の求めに合わせ、リクエストの間隔を0.5秒以上あける
+            var wait = Math.max(0, lastFetch + 500 - Date.now());
+            lastFetch = Date.now() + wait;
+            setTimeout(function () {
+            if (cityId !== id) return;
+            var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 9000);
+            fetch('https://weather.tsukumijima.net/api/forecast/city/' + id, ctrl ? { signal: ctrl.signal } : {})
+                .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(function (j) {
+                    clearTimeout(timer);
+                    var fs = (Array.isArray(j && j.forecasts) ? j.forecasts : []).filter(function (f) {
+                        return f && typeof f.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(f.date);
+                    }).slice(0, 3);
+                    if (!fs.length) throw new Error('empty');
+                    cache[id] = fs;
+                    if (cityId === id) setForecast(fs);
+                })
+                .catch(function () {
+                    clearTimeout(timer);
+                    if (cityId !== id) return;
+                    $('days3').innerHTML = '';
+                    $('fc-msg').textContent = 'いまは天気予報を取得できませんでした。時間をおいて試してください。';
+                    $('a2').textContent = '予定日はカレンダーで確かめられます。';
+                });
+            }, wait);
+        }
+
+        try { var saved = localStorage.getItem('carelog_lp_city'); if (saved && document.querySelector('.city[data-id="' + saved + '"]')) cityId = saved; } catch (e) {}
+        var citiesEl = $('cities');
+        document.querySelectorAll('.city').forEach(function (b) {
+            b.setAttribute('aria-pressed', b.dataset.id === cityId ? 'true' : 'false');
+            b.addEventListener('click', function () {
+                if (b.dataset.id === cityId && fcData) return;
+                document.querySelectorAll('.city').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+                try { localStorage.setItem('carelog_lp_city', b.dataset.id); } catch (e) {}
+                track('lp_weather_city', { city: b.textContent });
+                load(b.dataset.id);
+            });
+        });
+        // 横スクロールのとき、選んである都市が見える位置に寄せる（ページは縦に動かさない）
+        var picked = citiesEl.querySelector('[aria-pressed="true"]');
+        if (picked && citiesEl.scrollWidth > citiesEl.clientWidth) citiesEl.scrollLeft = picked.offsetLeft - citiesEl.offsetLeft - citiesEl.clientWidth / 2 + picked.offsetWidth / 2;
+
+        /* ==========================================================
+           Q3 用品の残量（30%未満で補充の通知。アプリの isLowStock と同じ）
+           ========================================================== */
+        var bottles = [
+            { name: 'カーシャンプー', short: 'シャンプー', cat: '洗車', color: '#EBB48A', deep: '#D4915D', lv: 62, use: 9 },
+            { name: 'ガラス系コーティング剤', short: 'コート剤', cat: 'コーティング', color: '#8FA3C3', deep: '#5A7194', lv: 41, use: 6 },
+            { name: '鉄粉除去剤', short: '鉄粉除去', cat: '下処理', color: '#8CC7A3', deep: '#52A775', lv: 36, use: 12 }
+        ];
+        var BOTTLE = 'M42 26 H58 V38 C58 48 86 50 86 66 V178 Q86 192 72 192 H28 Q14 192 14 178 V66 C14 50 42 48 42 38 Z';
+        var LV_TOP = 66, LV_BOT = 192;
+        var shelf = $('shelf'), wasLow = false;
+
+        function wavePath() {
+            var d = 'M-100 0';
+            for (var x = -100; x < 250; x += 50) d += ' q12.5 -6 25 0 t25 0';
+            return d + ' V200 H-100 Z';
+        }
+        bottles.forEach(function (b, i) {
+            var el = document.createElement('div');
+            el.className = 'btl';
+            el.innerHTML =
+                '<svg viewBox="0 0 100 200" role="slider" aria-orientation="vertical" tabindex="0" aria-label="' + b.name + 'の残量" aria-valuemin="0" aria-valuemax="100">' +
+                '<defs><clipPath id="bc' + i + '"><path d="' + BOTTLE + '"/></clipPath></defs>' +
+                '<rect x="38" y="4" width="24" height="24" rx="4" fill="' + b.deep + '"/>' +
+                '<path class="glass" d="' + BOTTLE + '"/>' +
+                '<g clip-path="url(#bc' + i + ')"><g class="lvl"><path class="wave" d="' + wavePath() + '" fill="' + b.color + '"/></g></g>' +
+                '<path class="glass-line" d="' + BOTTLE + '" fill="none" stroke="#CBBFA9" stroke-width="2.5"/>' +
+                '<path d="M23 74 V96 M23 158 V172" stroke="rgba(255,255,255,.7)" stroke-width="5" stroke-linecap="round"/>' +
+                '<rect x="20" y="104" width="60" height="46" rx="8" fill="#FFFDF8" stroke="rgba(42,49,66,.08)"/>' +
+                '<text class="lbl-t" x="50" y="122" text-anchor="middle">' + b.short + '</text>' +
+                '<text class="pct-t" x="50" y="142" text-anchor="middle"></text>' +
+                '</svg>' +
+                '<div class="btl-meta"><p class="nm">' + b.name + '</p><p class="ct">' + b.cat + '</p><button class="stat" type="button" tabindex="-1"></button></div>';
+            shelf.appendChild(el);
+            b.el = el; b.svg = el.querySelector('svg'); b.lvl = el.querySelector('.lvl'); b.pct = el.querySelector('.pct-t'); b.stat = el.querySelector('.stat');
+
+            function fromY(clientY) {
+                var r = b.svg.getBoundingClientRect();
+                var y = (clientY - r.top) / r.height * 200;
+                setLv(b, Math.round((LV_BOT - y) / (LV_BOT - LV_TOP) * 100));
+            }
+            b.svg.addEventListener('pointerdown', function (e) {
+                e.preventDefault(); b.svg.setPointerCapture(e.pointerId); el.classList.add('drag'); fromY(e.clientY); used('stock');
+            });
+            b.svg.addEventListener('pointermove', function (e) { if (el.classList.contains('drag')) fromY(e.clientY); });
+            ['pointerup', 'pointercancel'].forEach(function (t) { b.svg.addEventListener(t, function () { el.classList.remove('drag'); }); });
+            b.svg.addEventListener('keydown', function (e) {
+                var k = e.key, step = e.shiftKey ? 10 : 5;
+                if (k === 'ArrowUp' || k === 'ArrowRight') setLv(b, b.lv + step);
+                else if (k === 'ArrowDown' || k === 'ArrowLeft') setLv(b, b.lv - step);
+                else if (k === 'Home') setLv(b, 0);
+                else if (k === 'End') setLv(b, 100);
+                else return;
+                e.preventDefault(); used('stock');
+            });
+            b.stat.addEventListener('click', function () { if (b.lv < 30) { setLv(b, 100); used('stock'); } });
+        });
+
+        function setLv(b, v, quiet) {
+            b.lv = Math.max(0, Math.min(100, v));
+            var y = LV_BOT - (LV_BOT - LV_TOP) * b.lv / 100;
+            b.lvl.style.transform = 'translateY(' + y + 'px)';
+            b.pct.textContent = b.lv + '%';
+            b.svg.setAttribute('aria-valuenow', b.lv);
+            b.svg.setAttribute('aria-valuetext', b.lv + '%');
+            var low = b.lv < 30;
+            b.el.classList.toggle('low', low);
+            b.stat.textContent = low ? 'そろそろ買い足し' : '十分あります';
+            b.stat.setAttribute('aria-label', low ? b.name + 'はそろそろ買い足し（押すと補充して100%に戻ります）' : b.name + 'は十分あります');
+            b.stat.tabIndex = low ? 0 : -1;
+            if (!quiet) renderStock();
+        }
+
+        function renderStock() {
+            var lows = bottles.filter(function (b) { return b.lv < 30; });
+            var min = bottles.reduce(function (a, b) { return b.lv < a.lv ? b : a; });
+            $('notif').classList.toggle('off', !lows.length);
+            $('notif-when').classList.toggle('off', !lows.length);
+            $('notif-idle').classList.toggle('off', !!lows.length);
+            if (lows.length && !wasLow) track('lp_demo_low_stock', {});
+            wasLow = !!lows.length;
+            $('a3').textContent = lows.length
+                ? lows.map(function (b) { return b.name; }).join('と') + 'が' + (lows.length === 1 ? '残り' + lows[0].lv + '%' : '残りわずか') + '。そろそろ買い足しどきです。'
+                : 'まだ大丈夫。いちばん少ないのは' + min.name + 'の' + min.lv + '%です。';
+            renderStockNotif();
+        }
+
+        function renderStockNotif() {
+            // 次回の洗車の2日前・朝9時。その時刻を過ぎていたら、すぐ届く（アプリと同じ）
+            var at = addDays(nextWash(), -2); at.setHours(9, 0, 0, 0);
+            var soon = at <= new Date();
+            $('notif-w').textContent = soon ? 'いま' : md(at) + ' 9:00';
+            $('notif-when').textContent = soon
+                ? '次の洗車の2日前を過ぎているので、すぐにお知らせします。'
+                : '次の洗車（' + md(nextWash()) + '）の2日前、朝9時に届きます。';
+        }
+
+        $('use').addEventListener('click', function () {
+            bottles.forEach(function (b) { setLv(b, b.lv - b.use, true); });
+            renderStock(); used('stock');
+        });
+        bottles.forEach(function (b) { setLv(b, b.lv, true); });
+
+        /* ==========================================================
+           Q4 キズの管理
+           ========================================================== */
+        var BODY = 'M40 172 C40 152 56 142 92 137 L208 126 C236 98 262 80 300 77 L398 77 C432 79 456 100 478 122 L538 130 C558 133 566 150 564 172 L562 190 L502 190 A47 47 0 0 0 408 190 L198 190 A47 47 0 0 0 104 190 L50 190 C43 188 40 182 40 172 Z';
+        var WIN = 'M222 128 C246 104 268 90 300 88 L344 88 L344 128 Z M356 88 L396 88 C424 90 444 106 462 126 L356 128 Z';
+        $('car-art').innerHTML =
+            '<path d="M104 190 A47 47 0 0 1 198 190 Z M408 190 A47 47 0 0 1 502 190 Z" fill="#1F2533"/>' +
+            '<path class="body" id="car-body" d="' + BODY + '" fill="#6F86AA"/>' +
+            '<path d="M60 152 C120 142 200 136 260 134 L520 138" stroke="rgba(255,255,255,.35)" stroke-width="3" fill="none" stroke-linecap="round" pointer-events="none"/>' +
+            '<path d="' + WIN + '" fill="#2A3142" opacity=".85" pointer-events="none"/>' +
+            '<path d="M232 122 C250 104 266 96 288 94" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none" stroke-linecap="round" pointer-events="none"/>' +
+            '<path d="M350 130 V182 M240 134 V178" stroke="rgba(42,49,66,.25)" stroke-width="2" pointer-events="none"/>' +
+            '<rect x="46" y="150" width="20" height="9" rx="4" fill="#FFE7B0" pointer-events="none"/>' +
+            '<rect x="546" y="146" width="14" height="12" rx="4" fill="#E07573" pointer-events="none"/>' +
+            [[151, 200], [455, 200]].map(function (w) {
+                return '<g pointer-events="none"><circle cx="' + w[0] + '" cy="' + w[1] + '" r="40" fill="#2A3142"/><circle cx="' + w[0] + '" cy="' + w[1] + '" r="22" fill="#C9D2E0"/><circle cx="' + w[0] + '" cy="' + w[1] + '" r="7" fill="#8A97AD"/></g>';
+            }).join('');
+        var bodyEl = $('car-body');
+
+        var issues = [
+            { t: 'フロントバンパーの飛び石', sev: '中度', pg: '対応中', x: 58, y: 174, ago: 32 },
+            { t: '右リアドアの小傷', sev: '軽度', pg: '対応予定', x: 392, y: 160, ago: 39 },
+            { t: 'ホイールのガリ傷', sev: '中度', pg: '対応予定', x: 478, y: 222, ago: 53 }
+        ];
+        var SEVS = ['軽度', '中度', '重度'], PGS = ['対応予定', '対応中', '完了'];
+        var SEVC = { '軽度': '#D4915D', '中度': '#D45D5D', '重度': '#A12F2F' };
+        var doneBefore = 0;
+
+        function renderIssues(newIdx) {
+            var list = $('issues'), pins = $('pins');
+            list.innerHTML = ''; pins.innerHTML = '';
+            var done = 0;
+            issues.forEach(function (it, i) {
+                var isDone = it.pg === '完了';
+                if (isDone) done++;
+                var li = document.createElement('li');
+                li.className = 'iss' + (isDone ? ' done' : '') + (i === newIdx ? ' new' : '');
+                li.innerHTML = '<span class="no">' + (i + 1) + '</span><span class="tt"></span>' +
+                    '<button class="sev" type="button" data-v="' + it.sev + '" aria-label="深刻度 ' + it.sev + '（押すと変わります）">' + it.sev + '</button>' +
+                    '<span class="mt">発見日: ' + dotted(addDays(TODAY, -it.ago)) + ' / ' + it.pg + '</span>' +
+                    '<span class="seg" role="group" aria-label="対応状況">' + PGS.map(function (p) {
+                        return '<button type="button" data-v="' + p + '" aria-pressed="' + (p === it.pg) + '">' + p + '</button>';
+                    }).join('') + '</span><span class="stamp" aria-hidden="true">完了</span>';
+                li.querySelector('.tt').textContent = it.t;
+                li.querySelector('.sev').addEventListener('click', function () {
+                    it.sev = SEVS[(SEVS.indexOf(it.sev) + 1) % 3]; renderIssues(); used('issue');
+                    $('issues').children[i].querySelector('.sev').focus();
+                });
+                li.querySelectorAll('.seg button').forEach(function (b) {
+                    b.addEventListener('click', function () {
+                        if (it.pg === b.dataset.v) return;
+                        it.pg = b.dataset.v; renderIssues(); used('issue');
+                        $('issues').children[i].querySelector('.seg button[data-v="' + it.pg + '"]').focus();
+                    });
+                });
+                li.addEventListener('mouseenter', function () { hot(i, true); });
+                li.addEventListener('mouseleave', function () { hot(i, false); });
+                list.appendChild(li);
+
+                var g = document.createElementNS(NS, 'g');
+                g.setAttribute('class', 'pin' + (i === newIdx ? ' new' : ''));
+                var col = isDone ? '#3F8F61' : SEVC[it.sev];
+                g.innerHTML = '<circle class="halo" cx="' + it.x + '" cy="' + it.y + '" r="22" fill="' + col + '"/>' +
+                    '<path d="M' + it.x + ' ' + it.y + ' l-9 -16 a11 11 0 1 1 18 0 z" fill="' + col + '" stroke="#fff" stroke-width="2.5"/>' +
+                    (isDone
+                        ? '<path d="M' + (it.x - 5) + ' ' + (it.y - 25) + ' l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'
+                        : '<text x="' + it.x + '" y="' + (it.y - 20.5) + '" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="800" font-size="12" fill="#fff">' + (i + 1) + '</text>');
+                g.addEventListener('mouseenter', function () { hot(i, true); });
+                g.addEventListener('mouseleave', function () { hot(i, false); });
+                g.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    $('issues').children[i].scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+                    hot(i, true); setTimeout(function () { hot(i, false); }, 1200);
+                });
+                pins.appendChild(g);
+            });
+            $('iss-count').textContent = '対応済み ' + done + ' / ' + issues.length;
+            $('iss-bar').style.width = (done / issues.length * 100) + '%';
+            $('a4').textContent = done === issues.length
+                ? 'ぜんぶ対応済みです。おつかれさまでした。'
+                : issues.length + '件のうち' + done + '件が対応済み。残りは' + (issues.length - done) + '件です。';
+            if (done === issues.length && doneBefore < issues.length) track('lp_demo_issue_done', { count: issues.length });
+            doneBefore = done;
+        }
+        function hot(i, on) {
+            var li = $('issues').children[i], p = $('pins').children[i];
+            if (li) li.classList.toggle('hot', on);
+            if (p) p.classList.toggle('hot', on);
+        }
+
+        // 車をタップすると、アプリの初期値（軽度・対応予定）で新しい箇所を追加
+        $('car').addEventListener('click', function (e) {
+            var svg = $('car'), pt = svg.createSVGPoint();
+            pt.x = e.clientX; pt.y = e.clientY;
+            var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+            var inside = bodyEl.isPointInFill ? bodyEl.isPointInFill(p) : true;
+            if (!inside) return;
+            if (issues.length >= 6) { $('car-hint').textContent = 'デモで追加できるのは6件までです'; return; }
+            addIssue(Math.round(p.x), Math.round(p.y));
+        });
+        // キーボードでも追加できるボタン。ピンはボディの空いている位置に順に立てる
+        var SPOTS = [[300, 160], [200, 168], [520, 168], [420, 150], [110, 165], [250, 150]];
+        function addIssue(x, y) {
+            if (issues.length >= 6) { $('car-hint').textContent = 'デモで追加できるのは6件までです'; return; }
+            issues.push({ t: '気になる箇所 ' + (issues.length + 1), sev: '軽度', pg: '対応予定', x: x, y: y, ago: 0 });
+            renderIssues(issues.length - 1); used('issue');
+            $('iss-add').disabled = issues.length >= 6;
+        }
+        $('iss-add').addEventListener('click', function () {
+            var s = SPOTS.filter(function (q) {
+                return !issues.some(function (it) { return Math.abs(it.x - q[0]) < 30 && Math.abs(it.y - q[1]) < 30; });
+            })[0] || SPOTS[issues.length % SPOTS.length];
+            addIssue(s[0], s[1]);
+        });
+        renderIssues();
+
+        /* ==========================================================
+           Q5 出費（アプリの「カテゴリ別投資額」と同じ色）
+           ========================================================== */
+        var CAT = [['洗車用品', '#D4915D'], ['コーティング', '#5A7194'], ['下処理剤', '#52A775'], ['仕上げ用品', '#E0A573'], ['洗車サービス', '#6B9AC4'], ['修繕費', '#E07573']];
+        var STYLES = [
+            { id: 'hand', name: '週末の手洗い派', sub: '月に3〜4回、自分の手で', count: 40, v: { '洗車用品': 14000, '下処理剤': 4500, '仕上げ用品': 6500 }, quip: '1回あたり、缶コーヒー5本ぶんくらい。手間をかけるほど安くつく派です。' },
+            { id: 'machine', name: '洗車機でサッと派', sub: '月2回、給油のついでに', count: 24, v: { '洗車サービス': 19200, '洗車用品': 2400 }, quip: '時間もお金もかけすぎない、いちばん手軽なキレイの保ち方。' },
+            { id: 'coat', name: 'コーティング命派', sub: 'ツヤのためなら惜しまない', count: 36, v: { 'コーティング': 32000, '洗車用品': 12000, '下処理剤': 7000, '仕上げ用品': 9000 }, quip: 'どのコート剤がいちばん効いたかも、記録を見返せば分かります。' },
+            { id: 'pro', name: 'プロにおまかせ派', sub: '手洗い洗車店に月1回', count: 12, v: { '洗車サービス': 42000, '修繕費': 18000 }, quip: '手間は最小。飛び石の修理代も、ここにちゃんと入ります。' }
+        ];
+        var stylesEl = $('styles'), donut = $('donut');
+        var C = 2 * Math.PI * 72;
+        var segs = CAT.map(function (c) {
+            var s = document.createElementNS(NS, 'circle');
+            s.setAttribute('cx', 100); s.setAttribute('cy', 100); s.setAttribute('r', 72);
+            s.setAttribute('stroke', c[1]); s.style.strokeDasharray = '0 ' + C; s.style.strokeDashoffset = 0;
+            donut.appendChild(s); return s;
+        });
+        function yen(n) { return '¥' + Math.round(n).toLocaleString(); }
+        function man(n) { return n >= 10000 ? '¥' + (Math.round(n / 1000) / 10) + '万' : yen(n); }
+        function sum(st) { var t = 0; for (var k in st.v) t += st.v[k]; return t; }
+        var totalShown = 0;
+        function countTo(el, to) {
+            var from = totalShown, start = null, dur = reduce ? 0 : 700;
+            totalShown = to;
+            if (!dur) { el.textContent = man(to); return; }
+            requestAnimationFrame(function step(ts) {
+                if (!start) start = ts;
+                var p = Math.min((ts - start) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+                el.textContent = man(from + (to - from) * e);
+                if (p < 1) requestAnimationFrame(step);
+            });
+        }
+        function answer5(st) {
+            var t = sum(st);
+            $('a5').textContent = st.name + 'なら、1年で' + man(t) + '。1回あたり' + yen(t / st.count) + 'です。';
+            Array.prototype.forEach.call(stylesEl.children, function (b) { b.setAttribute('aria-pressed', b.dataset.id === st.id ? 'true' : 'false'); });
+        }
+        function pick(st, user) {
+            var total = sum(st), acc = 0;
+            CAT.forEach(function (c, i) {
+                var len = (st.v[c[0]] || 0) / total * C;
+                segs[i].style.strokeDasharray = Math.max(len - (len ? 2 : 0), 0) + ' ' + C;
+                segs[i].style.strokeDashoffset = -acc;
+                acc += len;
+            });
+            $('lgd').innerHTML = CAT.filter(function (c) { return st.v[c[0]]; }).map(function (c, i) {
+                var val = st.v[c[0]];
+                return '<li style="animation-delay:' + (i * 60) + 'ms"><i style="background:' + c[1] + '"></i><span>' + c[0] + '</span><span>' + yen(val) + '（' + Math.round(val / total * 100) + '%）</span></li>';
+            }).join('');
+            countTo($('total'), total);
+            $('cnt').textContent = st.count + '回';
+            $('per1').textContent = yen(total / st.count);
+            $('quip').textContent = st.quip;
+            answer5(st);
+            if (user) { used('spend'); track('lp_demo_spend_style', { style: st.id }); }
+        }
+        STYLES.forEach(function (st) {
+            var b = document.createElement('button');
+            b.type = 'button'; b.className = 'style'; b.dataset.id = st.id;
+            b.innerHTML = '<b>' + st.name + '</b><small>' + st.sub + '</small>';
+            b.addEventListener('click', function () { pick(st, true); });
+            stylesEl.appendChild(b);
+        });
+        answer5(STYLES[0]);
+
+        /* ---------- 初期描画 ---------- */
+        renderCycle();
+        renderStock();
+
+        /* ---------- 追従バー・遅延読み込み・出現アニメ ---------- */
+        var bar = $('bar');
+        if ('IntersectionObserver' in window) {
+            // ヒーローのバッジが上に消えていて、最後の CTA のバッジが見えていないときだけ出す
+            var heroGone = false, ctaIn = false;
+            var sync = function () { bar.classList.toggle('show', heroGone && !ctaIn); };
+            new IntersectionObserver(function (e) {
+                heroGone = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; sync();
+            }).observe($('hero-stores'));
+            new IntersectionObserver(function (e) {
+                ctaIn = e[0].isIntersecting; sync();
+            }).observe(document.querySelector('#download .stores'));
+
+            // 天気予報は見えそうになってから取りに行く
+            new IntersectionObserver(function (e, ob) {
+                if (!e[0].isIntersecting || fcLoaded) return;
+                fcLoaded = true; ob.disconnect(); load(cityId);
+            }, { rootMargin: '300px 0px' }).observe($('forecast'));
+            // 円グラフは見えたときに伸ばす
+            new IntersectionObserver(function (e, ob) {
+                if (!e[0].isIntersecting) return;
+                ob.disconnect(); pick(STYLES[0], false);
+            }, { threshold: 0.3 }).observe(donut);
+
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (en) {
+                    if (!en.isIntersecting) return;
+                    en.target.classList.add('in');
+                    io.unobserve(en.target);
+                });
+            }, { threshold: 0.12 });
+            document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+        } else {
+            document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+            load(cityId); pick(STYLES[0], false);
+        }
+    })();
+    </script>
+</body>
+</html>
