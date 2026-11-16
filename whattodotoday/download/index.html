@@ -164,23 +164,6 @@
         }
         .phone img { width: 100%; height: auto; aspect-ratio: 1206 / 2150; object-fit: cover; object-position: top; border-radius: 34px; }
 
-        .chip {
-            position: absolute; z-index: 2;
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 7px 16px;
-            background: #fff; border: 2px solid var(--coral);
-            border-radius: 999px; color: var(--coral-deep);
-            font-weight: 700; font-size: 14px; white-space: nowrap;
-            box-shadow: 0 10px 22px rgba(120, 50, 20, .22);
-            translate: var(--px, 0) var(--py, 0);
-            transition: translate .3s ease-out;
-            animation: float 5s ease-in-out infinite;
-        }
-        .chip.c1 { left: 0; top: 18%; rotate: -6deg; }
-        .chip.c2 { right: -2%; top: 36%; rotate: 5deg; animation-delay: -1.6s; }
-        .chip.c3 { left: 4%; bottom: 26%; rotate: 4deg; animation-delay: -3.2s; }
-        .chip.c4 { right: 6%; bottom: 12%; rotate: -4deg; animation-delay: -2.4s; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         .wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 90px; z-index: 3; display: block; }
 
@@ -309,7 +292,7 @@
         .demo-foot p b { color: var(--coral-deep); white-space: nowrap; }
         .demo-foot .stores { justify-content: center; }
 
-        .burst { position: fixed; pointer-events: none; z-index: 50; font-size: 26px; left: 0; top: 0; }
+        .burst { position: fixed; pointer-events: none; z-index: 50; left: 0; top: 0; width: 8px; height: 13px; border-radius: 2px; }
 
         /* ---------- 使い方 ---------- */
         .how { background: #fff; }
@@ -343,10 +326,6 @@
         .feat:nth-child(2) { background: #FFF0C7; }
         .feat:nth-child(3) { background: #DDF0E2; }
         .feat:nth-child(4) { background: #DCE9F9; }
-        .feat .sticker {
-            position: absolute; top: -18px; right: 16px; font-size: 40px;
-            transform: rotate(12deg); filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .12));
-        }
         .feat .big { font-family: var(--display); font-size: 42px; line-height: 1.1; margin-bottom: 10px; }
         .feat .big small { font-family: 'Noto Sans JP', sans-serif; font-weight: 900; font-size: 15px; margin-left: 3px; }
         .feat h3 { font-size: 16px; font-weight: 900; margin-bottom: 4px; }
@@ -358,7 +337,6 @@
         .cta h2 { color: #fff; font-size: clamp(32px, 5.4vw, 60px); }
         .cta .sec-lead { color: rgba(255, 255, 255, .95); margin-bottom: 36px; }
         .cta .stores { justify-content: center; position: relative; z-index: 1; }
-        .cta .deco { position: absolute; font-size: 44px; animation: float 6s ease-in-out infinite; }
 
         footer { padding: 36px 0 44px; text-align: center; font-size: 13px; color: var(--muted); }
         footer a { margin: 0 10px; }
@@ -405,11 +383,6 @@
             .stores, .hero .note { justify-content: center; }
             .hero-visual { margin-top: 26px; }
             .hero-visual .tilt { width: min(240px, 64%); }
-            .chip { font-size: 12.5px; padding: 5px 12px; }
-            .chip.c1 { left: 2%; top: 10%; }
-            .chip.c2 { right: 2%; top: 30%; }
-            .chip.c3 { left: 3%; bottom: 34%; }
-            .chip.c4 { right: 4%; bottom: 16%; }
             .wave { height: 50px; }
             .marquee span { font-size: 16px; }
             section { padding: 80px 0; }
@@ -432,11 +405,7 @@
             .feat .big { font-size: 28px; }
             .feat .big small { font-size: 12px; }
             .feat p { font-size: 12.5px; }
-            .feat .sticker { font-size: 32px; right: 10px; }
             .cta { padding-top: 110px; }
-            .cta .deco { font-size: 30px; }
-            /* 下の飾りがバッジに重ならないよう、さらに下へ逃がす */
-            .cta .deco.lo { bottom: 4% !important; }
             .bar { display: block; }
             footer { padding-bottom: 104px; }
         }
@@ -464,10 +433,6 @@
             </div>
 
             <div class="hero-visual" id="hero-visual">
-                <span class="chip c1" data-depth="18">⏱️ 1時間</span>
-                <span class="chip c2" data-depth="-14">🍴 グルメ</span>
-                <span class="chip c3" data-depth="10">🌸 春</span>
-                <span class="chip c4" data-depth="-20">👫 2人</span>
                 <div class="tilt"><div class="phone"><img src="img/02-result.jpg" alt="「今日なにする？」の提案画面。横須賀ポートマーケットが表示されている" width="640" height="1141"></div></div>
             </div>
         </div>
@@ -486,7 +451,7 @@
             <div class="demo">
                 <div class="panel reveal">
                     <div class="field">
-                        <p>📍 どのあたり？</p>
+                        <p>どのあたり？</p>
                         <div class="opts" data-key="area">
                             <button class="opt" data-v="" aria-pressed="true">指定なし</button>
                             <button class="opt" data-v="hokkaido">北海道・東北</button>
@@ -498,7 +463,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <p>⏱️ 時間は？</p>
+                        <p>時間は？</p>
                         <div class="opts" data-key="time">
                             <button class="opt" data-v="" aria-pressed="true">指定なし</button>
                             <button class="opt" data-v="short">さくっと 1〜2時間</button>
@@ -507,14 +472,14 @@
                         </div>
                     </div>
                     <div class="field">
-                        <p>✨ 気分は？</p>
+                        <p>気分は？</p>
                         <div class="opts" data-key="cat">
                             <button class="opt" data-v="" aria-pressed="true">なんでも</button>
-                            <button class="opt" data-v="nature">🌿 自然</button>
-                            <button class="opt" data-v="history">⛩️ 歴史</button>
-                            <button class="opt" data-v="food">🍜 グルメ</button>
-                            <button class="opt" data-v="onsen">♨️ 温泉</button>
-                            <button class="opt" data-v="play">🎡 遊ぶ</button>
+                            <button class="opt" data-v="nature">自然</button>
+                            <button class="opt" data-v="history">歴史</button>
+                            <button class="opt" data-v="food">グルメ</button>
+                            <button class="opt" data-v="onsen">温泉</button>
+                            <button class="opt" data-v="play">遊ぶ</button>
                         </div>
                     </div>
                     <button class="decide" id="decide">決める</button>
@@ -593,20 +558,16 @@
             <p class="sec-lead reveal"><span>自然、歴史・文化、グルメ、温泉。</span><span>知らなかった行き先に、出会えます。</span></p>
 
             <div class="grid">
-                <div class="feat reveal"><span class="sticker">🗾</span><div class="big"><span data-count="3800">3,800</span>+<small>件</small></div><h3>全国のスポット</h3><p>47都道府県から<br>行き先を提案します。</p></div>
-                <div class="feat reveal d1"><span class="sticker">🎡</span><div class="big"><span data-count="6">6</span><small>カテゴリ</small></div><h3>気分で選べる</h3><p>自然・グルメ・温泉・<br>アミューズメントなど。</p></div>
-                <div class="feat reveal d2"><span class="sticker">⏱️</span><div class="big"><span data-count="1">1</span><small>時間〜</small></div><h3>時間に合わせて</h3><p>1時間から1日まで、<br>使える時間で絞れます。</p></div>
-                <div class="feat reveal d3"><span class="sticker">🎁</span><div class="big">0<small>円</small></div><h3>登録なしで無料</h3><p>ログイン不要。<br>入れたらすぐ使えます。</p></div>
+                <div class="feat reveal"><div class="big"><span data-count="3800">3,800</span>+<small>件</small></div><h3>全国のスポット</h3><p>47都道府県から<br>行き先を提案します。</p></div>
+                <div class="feat reveal d1"><div class="big"><span data-count="6">6</span><small>カテゴリ</small></div><h3>気分で選べる</h3><p>自然・グルメ・温泉・<br>アミューズメントなど。</p></div>
+                <div class="feat reveal d2"><div class="big"><span data-count="1">1</span><small>時間〜</small></div><h3>時間に合わせて</h3><p>1時間から1日まで、<br>使える時間で絞れます。</p></div>
+                <div class="feat reveal d3"><div class="big">0<small>円</small></div><h3>登録なしで無料</h3><p>ログイン不要。<br>入れたらすぐ使えます。</p></div>
             </div>
         </div>
     </section>
 
     <section class="cta grain" id="download">
         <svg class="wave-top" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L1440,0 L1440,40 C1200,85 1000,10 720,45 C440,80 220,15 0,50 Z" fill="#F7F1EA"/></svg>
-        <span class="deco" style="left:8%;top:34%;">🌸</span>
-        <span class="deco" style="right:10%;top:30%;animation-delay:-2s;">♨️</span>
-        <span class="deco lo" style="left:12%;bottom:16%;animation-delay:-4s;">🍜</span>
-        <span class="deco lo" style="right:12%;bottom:18%;animation-delay:-1s;">⛩️</span>
         <div class="wrap">
             <h2 class="reveal">さあ、今日は<br>どこへ行こう？</h2>
             <p class="sec-lead reveal">ダウンロードは無料です。</p>
@@ -673,16 +634,11 @@
         /* ---------- ヒーロー：ポインタで傾く ---------- */
         var hv = document.getElementById('hero-visual');
         if (!reduce && window.matchMedia('(hover: hover)').matches) {
-            var tilt = hv.querySelector('.tilt'), chips = hv.querySelectorAll('.chip');
+            var tilt = hv.querySelector('.tilt');
             document.querySelector('.hero').addEventListener('pointermove', function (e) {
                 var x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
                 tilt.style.setProperty('--ry', (x * 18) + 'deg');
                 tilt.style.setProperty('--rx', (-y * 14) + 'deg');
-                chips.forEach(function (c) {
-                    var d = +c.dataset.depth;
-                    c.style.setProperty('--px', (x * d) + 'px');
-                    c.style.setProperty('--py', (y * d) + 'px');
-                });
             });
         }
 
@@ -700,9 +656,6 @@
             nature: ['自然'], history: ['歴史・文化'], food: ['グルメ'],
             onsen: ['宿泊・温泉'], play: ['アミューズメント', 'スポーツ・レクリエーション']
         };
-        var CAT_EMOJI = { '自然': '🌿', '歴史・文化': '🏛️', 'グルメ': '🍴', '宿泊・温泉': '♨️', 'アミューズメント': '🎡', 'スポーツ・レクリエーション': '⚽' };
-        var SEASON_EMOJI = { '春': '🌸', '夏': '🌻', '秋': '🍁', '冬': '⛄', '通年': '🗓️' };
-        var PEOPLE_EMOJI = { '1人': '🚶', '2人': '👫', 'グループ': '👥' };
 
         var sel = { area: '', time: '', cat: '' };
         document.querySelectorAll('.opts').forEach(function (g) {
@@ -749,26 +702,27 @@
         function fill(r) {
             var s = r.s;
             document.getElementById('r-place').textContent = s.place;
-            document.getElementById('r-loc').textContent = '📍 ' + s.pref;
+            document.getElementById('r-loc').textContent = s.pref;
             document.getElementById('r-relaxed').textContent = r.msg;
             document.getElementById('r-act').textContent = s.act;
             document.getElementById('r-point').textContent = s.point;
             var tags = document.getElementById('r-tags');
             tags.innerHTML = '';
-            [['⏱️', s.time], [PEOPLE_EMOJI[s.people] || '👥', s.people], [SEASON_EMOJI[s.season] || '🗓️', s.season], [CAT_EMOJI[s.cat] || '✨', s.cat]]
-                .forEach(function (t) { var e = document.createElement('span'); e.textContent = t[0] + ' ' + t[1]; tags.appendChild(e); });
+            [s.time, s.people, s.season, s.cat]
+                .forEach(function (t) { var e = document.createElement('span'); e.textContent = t; tags.appendChild(e); });
             document.getElementById('r-map').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.place + ' ' + s.pref);
         }
 
-        function burst(s) {
+        function burst() {
             if (reduce || !Element.prototype.animate) return;
             var rect = card.getBoundingClientRect();
-            var cx = rect.left + rect.width / 2 - 13, cy = rect.top + rect.height * .3;
-            var set = [CAT_EMOJI[s.cat] || '✨', SEASON_EMOJI[s.season] || '🌸', '✨', '🎉'];
-            for (var i = 0; i < 18; i++) {
+            var cx = rect.left + rect.width / 2, cy = rect.top + rect.height * .3;
+            var colors = ['#FF845C', '#FFC94D', '#7FCB9A', '#7EA8E6', '#EC5A38'];
+            for (var i = 0; i < 22; i++) {
                 var e = document.createElement('span');
                 e.className = 'burst';
-                e.textContent = set[i % set.length];
+                e.style.background = colors[i % colors.length];
+                if (i % 3 === 0) { e.style.width = '9px'; e.style.height = '9px'; e.style.borderRadius = '50%'; }
                 document.body.appendChild(e);
                 var a = Math.random() * Math.PI * 2, d = 110 + Math.random() * 150;
                 var dx = Math.cos(a) * d, dy = Math.sin(a) * d;
@@ -827,7 +781,7 @@
             function reveal() {
                 fill(r);
                 setFlipped(true);
-                setTimeout(function () { burst(r.s); }, reduce ? 0 : 380);
+                setTimeout(function () { burst(); }, reduce ? 0 : 380);
                 // 裏面は次に備えて元に戻す（めくれている間は見えない）
                 resetTimer = setTimeout(function () { hint.textContent = '「決める」を押してね'; roll.textContent = '今日の行き先は…'; }, 800);
                 busy = false; btn.disabled = false;
