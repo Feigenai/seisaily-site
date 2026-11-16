@@ -260,7 +260,10 @@
         .cities::-webkit-scrollbar { display: none; }
         .cities .chip { flex: none; }
         .cal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .cal-head b { font-family: var(--head); font-weight: 900; font-size: 19px; }
+        .cal-head b { font-family: var(--head); font-weight: 900; font-size: 19px; min-width: 6.2em; text-align: center; }
+        .cal-nav { display: flex; align-items: center; gap: 4px; }
+        .cal-nav button { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer; }
+        .cal-nav button:disabled { opacity: .3; cursor: default; }
         .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
         .legend span { display: inline-flex; align-items: center; gap: 5px; }
         .legend .k-plan { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--terra); }
@@ -290,7 +293,7 @@
         .d3 .tp { font-family: var(--num); font-stretch: 125%; font-size: 12px; font-weight: 700; white-space: nowrap; }
         .d3 .tp .hi { color: var(--red); } .d3 .tp .lo { color: var(--slate); }
         .d3 .rn { font-size: 11px; color: var(--muted); white-space: nowrap; }
-        .vd { display: inline-block; margin-top: 7px; font-size: 11.5px; font-weight: 700; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+        .vd { display: inline-block; max-width: 100%; margin-top: 7px; font-size: 11.5px; font-weight: 700; line-height: 1.4; padding: 2px 10px; border-radius: 999px; }
         .vd.good { background: #E2F2E8; color: var(--green); }
         .vd.soso { background: var(--terra-soft); color: var(--terra-deep); }
         .vd.bad { background: #EEF0F4; color: var(--muted); }
@@ -359,8 +362,10 @@
         .pin.hot .halo { opacity: .35; }
         .pin.new { animation: pindrop .5s cubic-bezier(.3, 1.6, .5, 1); }
         @keyframes pindrop { from { transform: translateY(-30px); opacity: 0; } }
-        .iss-sum { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 13px; font-weight: 700; color: var(--muted); }
-        .iss-sum .bar2 { flex: 1; height: 8px; background: #EFE8DA; border-radius: 99px; overflow: hidden; }
+        .iss-sum { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; font-size: 13px; font-weight: 700; color: var(--muted); }
+        .iss-add { font: inherit; font-size: 12.5px; font-weight: 700; color: var(--terra-deep); background: var(--terra-soft); border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+        .iss-add:disabled { opacity: .45; cursor: default; }
+        .iss-sum .bar2 { flex: 1; min-width: 60px; height: 8px; background: #EFE8DA; border-radius: 99px; overflow: hidden; }
         .iss-sum .bar2 i { display: block; height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .5s cubic-bezier(.3, 1.2, .5, 1); }
         .issues { list-style: none; display: grid; gap: 10px; }
         .iss {
@@ -452,9 +457,9 @@
             position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: none;
             padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
             background: rgba(255, 249, 238, .92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-            box-shadow: 0 -6px 24px rgba(20, 30, 50, .12); transform: translateY(110%); transition: transform .3s ease;
+            box-shadow: 0 -6px 24px rgba(20, 30, 50, .12); transform: translateY(110%); visibility: hidden; transition: transform .3s ease, visibility 0s linear .3s;
         }
-        .bar.show { transform: none; }
+        .bar.show { transform: none; visibility: visible; transition: transform .3s ease, visibility 0s; }
         .bar-inner { display: flex; gap: calc(var(--badge-h) / 4); max-width: 520px; margin: 0 auto; justify-content: center; align-items: center; }
         .bar { --badge-h: 46px; }
         @media (max-width: 350px) { .bar { --badge-h: 40px; } }
@@ -555,7 +560,7 @@
                         <span class="q">愛車の<em>「いつだっけ？」</em>を、</span>
                         <span class="a"><span class="ph">ぜんぶ</span><span class="ph"><b>覚えておく。</b></span></span>
                     </h1>
-                    <p class="lead"><span class="ph">洗車した日、用品の残り、</span><span class="ph">キズの経過、かけたお金。</span><span class="ph">CAReLOG がまとめて覚えて、</span><span class="ph">次の洗車日は</span><span class="ph">天気といっしょに知らせます。</span></p>
+                    <p class="lead"><span class="ph">洗車した日、用品の残り、</span><span class="ph">キズの経過、かけたお金。</span><span class="ph">CAReLOG がまとめて覚えて、</span><span class="ph">次の洗車日は通知で知らせて、</span><span class="ph">天気も見ながら決められます。</span></p>
                     <div class="stores" id="hero-stores">
                         <a class="store" data-platform="ios" href="https://apps.apple.com/jp/app/id6829361767"><img src="img/badge-appstore.svg" alt="App Store からダウンロード" width="109" height="40"></a>
                         <a class="store" data-platform="android" href="https://play.google.com/store/apps/details?id=com.carelog.carelog"><img src="img/badge-googleplay.png" alt="Google Play で手に入れよう" width="135" height="40"></a>
@@ -680,7 +685,7 @@
                         <button class="chip city" type="button" data-id="471010">那覇</button>
                     </div>
                     <div class="cal-head">
-                        <b id="cal-title"></b>
+                        <div class="cal-nav"><button type="button" id="cal-prev" aria-label="前の月">‹</button><b id="cal-title" aria-live="polite"></b><button type="button" id="cal-next" aria-label="次の月">›</button></div>
                         <div class="legend" aria-hidden="true">
                             <span><svg viewBox="0 0 40 24"><use href="#car-ico"/></svg>洗車した日</span>
                             <span><i class="k-plan"></i>洗車予定日</span>
@@ -753,7 +758,7 @@
                             <g id="pins"></g>
                         </svg>
                     </div>
-                    <div class="iss-sum"><span id="iss-count"></span><span class="bar2"><i id="iss-bar"></i></span></div>
+                    <div class="iss-sum"><span id="iss-count"></span><span class="bar2"><i id="iss-bar"></i></span><button type="button" class="iss-add" id="iss-add">＋ 箇所を追加</button></div>
                     <ul class="issues" id="issues"></ul>
                 </div>
             </div>
@@ -983,7 +988,7 @@
             lastKind = kind;
 
             var nx = nextWash();
-            $('next-d').textContent = md(nx);
+            $('next-d').textContent = md(nx) + (nx < TODAY ? '（過ぎています）' : '');
 
             // 通知は朝9時。もう過ぎた日時のものは予約されない（アプリと同じ）
             var now = new Date();
@@ -1052,10 +1057,22 @@
             });
         }
 
-        var fcData = null, fcByDate = {}, cityId = '130010', fcLoaded = false, cache = {};
+        var fcData = null, fcByDate = {}, cityId = '130010', fcLoaded = false, cache = {}, lastFetch = 0;
 
-        function renderCalendar() {
-            var y = TODAY.getFullYear(), m = TODAY.getMonth();
+        // 表示する月。予定日が来月なら来月を出し、前後は矢印で行き来できる（前回の洗車日〜予定日の範囲）
+        var calView = null;
+        function monthIdx(d) { return d.getFullYear() * 12 + d.getMonth(); }
+        function calRange() {
+            var lw = lastWash(), nx = nextWash();
+            return [Math.min(monthIdx(lw), monthIdx(TODAY)), Math.max(monthIdx(nx), monthIdx(TODAY))];
+        }
+        function renderCalendar(keep) {
+            var nx0 = nextWash(), r = calRange();
+            if (!keep || calView === null) calView = nx0 < TODAY ? monthIdx(TODAY) : monthIdx(nx0);
+            calView = Math.max(r[0], Math.min(r[1], calView));
+            $('cal-prev').disabled = calView <= r[0];
+            $('cal-next').disabled = calView >= r[1];
+            var y = Math.floor(calView / 12), m = calView % 12;
             $('cal-title').textContent = y + '年' + (m + 1) + '月';
             var first = new Date(y, m, 1), start = addDays(first, -first.getDay());
             var dim = new Date(y, m + 1, 0).getDate();
@@ -1079,6 +1096,8 @@
             }
             $('cal').innerHTML = h;
         }
+        $('cal-prev').addEventListener('click', function () { calView--; renderCalendar(true); });
+        $('cal-next').addEventListener('click', function () { calView++; renderCalendar(true); });
 
         function skeleton() {
             $('days3').innerHTML = [0, 1, 2].map(function () {
@@ -1126,27 +1145,34 @@
             }
             $('fc-msg').innerHTML = msg;
             $('a2').textContent = firstGood >= 0
-                ? name + 'は' + (fs[firstGood].dateLabel || '') + 'が洗車日和です。'
+                ? name + 'は' + (fs[firstGood].dateLabel || '') + 'が' + v[firstGood].label + 'です。'
                 : name + 'はこの3日間、見送りが無難です。';
         }
 
         function setForecast(fs) {
             fcData = fs; fcByDate = {};
             fs.forEach(function (f) { fcByDate[f.date] = f; });
-            renderCalendar(); renderForecast(fs);
+            renderCalendar(true); renderForecast(fs);
         }
 
         function load(id) {
             cityId = id;
             if (cache[id]) return setForecast(cache[id]);
-            fcData = null; fcByDate = {}; renderCalendar(); skeleton();
+            fcData = null; fcByDate = {}; renderCalendar(true); skeleton();
             var ctrl = window.AbortController ? new AbortController() : null;
+            // 提供元の求めに合わせ、リクエストの間隔を0.5秒以上あける
+            var wait = Math.max(0, lastFetch + 500 - Date.now());
+            lastFetch = Date.now() + wait;
+            setTimeout(function () {
+            if (cityId !== id) return;
             var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 9000);
             fetch('https://weather.tsukumijima.net/api/forecast/city/' + id, ctrl ? { signal: ctrl.signal } : {})
                 .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(function (j) {
                     clearTimeout(timer);
-                    var fs = (j.forecasts || []).slice(0, 3);
+                    var fs = (Array.isArray(j && j.forecasts) ? j.forecasts : []).filter(function (f) {
+                        return f && typeof f.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(f.date);
+                    }).slice(0, 3);
                     if (!fs.length) throw new Error('empty');
                     cache[id] = fs;
                     if (cityId === id) setForecast(fs);
@@ -1158,6 +1184,7 @@
                     $('fc-msg').textContent = 'いまは天気予報を取得できませんでした。時間をおいて試してください。';
                     $('a2').textContent = '予定日はカレンダーで確かめられます。';
                 });
+            }, wait);
         }
 
         try { var saved = localStorage.getItem('carelog_lp_city'); if (saved && document.querySelector('.city[data-id="' + saved + '"]')) cityId = saved; } catch (e) {}
@@ -1197,7 +1224,7 @@
             var el = document.createElement('div');
             el.className = 'btl';
             el.innerHTML =
-                '<svg viewBox="0 0 100 200" role="slider" tabindex="0" aria-label="' + b.name + 'の残量" aria-valuemin="0" aria-valuemax="100">' +
+                '<svg viewBox="0 0 100 200" role="slider" aria-orientation="vertical" tabindex="0" aria-label="' + b.name + 'の残量" aria-valuemin="0" aria-valuemax="100">' +
                 '<defs><clipPath id="bc' + i + '"><path d="' + BOTTLE + '"/></clipPath></defs>' +
                 '<rect x="38" y="4" width="24" height="24" rx="4" fill="' + b.deep + '"/>' +
                 '<path class="glass" d="' + BOTTLE + '"/>' +
@@ -1377,8 +1404,21 @@
             var inside = bodyEl.isPointInFill ? bodyEl.isPointInFill(p) : true;
             if (!inside) return;
             if (issues.length >= 6) { $('car-hint').textContent = 'デモで追加できるのは6件までです'; return; }
-            issues.push({ t: '気になる箇所 ' + (issues.length + 1), sev: '軽度', pg: '対応予定', x: Math.round(p.x), y: Math.round(p.y), ago: 0 });
+            addIssue(Math.round(p.x), Math.round(p.y));
+        });
+        // キーボードでも追加できるボタン。ピンはボディの空いている位置に順に立てる
+        var SPOTS = [[300, 160], [200, 168], [520, 168], [420, 150], [110, 165], [250, 150]];
+        function addIssue(x, y) {
+            if (issues.length >= 6) { $('car-hint').textContent = 'デモで追加できるのは6件までです'; return; }
+            issues.push({ t: '気になる箇所 ' + (issues.length + 1), sev: '軽度', pg: '対応予定', x: x, y: y, ago: 0 });
             renderIssues(issues.length - 1); used('issue');
+            $('iss-add').disabled = issues.length >= 6;
+        }
+        $('iss-add').addEventListener('click', function () {
+            var s = SPOTS.filter(function (q) {
+                return !issues.some(function (it) { return Math.abs(it.x - q[0]) < 30 && Math.abs(it.y - q[1]) < 30; });
+            })[0] || SPOTS[issues.length % SPOTS.length];
+            addIssue(s[0], s[1]);
         });
         renderIssues();
 
